@@ -55,15 +55,21 @@ export const addUserInRoom = async (req, res) => {
       if (room.users.length > 6) {
         res.status(404).json({ message: "Cannot add more than seven users" });
       } else {
-        const newUser = await User.findById(data.userId);
-        if (newUser.rooms.indexOf(roomId) === -1) {
-          newUser.rooms.push(roomId);
-          await newUser.save();
-          room.users.push(data);
-          room.UpdatedAt = new Date();
-          await room.save();
+        if (room.isProtected === false || room.host === userId) {
+          const newUser = await User.findById(data.userId);
+          if (newUser.rooms.indexOf(roomId) === -1) {
+            newUser.rooms.push(roomId);
+            await newUser.save();
+            room.users.push(data);
+            room.UpdatedAt = new Date();
+            await room.save();
+          }
+          res.status(200).json(room);
+        } else {
+          res
+            .status(404)
+            .json({ message: "You don't have permission to add users" });
         }
-        res.status(200).json(room);
       }
     } else {
       res.status(404).json({ message: "Room not found" });
@@ -82,14 +88,54 @@ export const removeUserFromRoom = async (req, res) => {
       const room = await Room.findById(roomId);
       const newUser = await User.findById(data.userId);
       if (newUser.rooms.includes(roomId)) {
+        if (room.isProtected === false || room.host === userId) {
           room.users = room.users.filter((u) => u.userId !== data.userId);
           room.UpdatedAt = new Date();
-        await room.save();
-        newUser.rooms = newUser.rooms.filter((r) => roomId !== r);
-        await newUser.save();
-        res.status(200).json(room);
+          await room.save();
+          newUser.rooms = newUser.rooms.filter((r) => roomId !== r);
+          await newUser.save();
+          res.status(200).json(room);
+        } else {
+          res
+            .status(404)
+            .json({ message: "You don't have permission to remove users" });
+        }
       } else {
         res.status(404).json({ message: "User not found in room" });
+      }
+    } else {
+      res.status(404).json({ message: "Room not found" });
+    }
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const postMessage = async (req, res) => {
+  const { userid: userId, id: roomId } = req.params;
+  const { message } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (user.rooms.includes(roomId)) {
+      const room = await Room.findById(roomId);
+      if (room.isProtected === false || room.host === userId) {
+        room.messages.push({
+          senderId: userId,
+          sender: user.name,
+          message,
+        });
+        room.UpdatedAt = new Date();
+
+        const updatedRoom = await Room.findByIdAndUpdate(
+          roomId,
+          room,
+          { new: true }
+        );
+
+        res.json(updatedRoom);
+      } else {
+        res.status(404).json({ message: "Only host can send messages" });
       }
     } else {
       res.status(404).json({ message: "Room not found" });

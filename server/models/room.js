@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import Message from "./message.js";
 
 const roomSchema = mongoose.Schema({
-  id: { type: String },
   users: [{ userId: String, userName: String }],
+  isProtected: { type: Boolean, default: false },
+  host: String,
   messages: [Message],
   UpdatedAt: {
     type: Date,

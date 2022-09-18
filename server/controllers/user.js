@@ -17,7 +17,7 @@ export const signin = async (req, res) => {
 
     res.status(200).json({ result: existingUser});
   } catch (error) {
-    return res.status(500).json({ message: "Something went wrong." });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -38,6 +38,6 @@ export const signup = async (req, res) => {
     });
     res.status(200).json({ result: result});
   } catch (error) {
-    return res.status(500).json({ message: "Something went wrong." });
+    return res.status(500).json({ message: error.message });
   }
 };
