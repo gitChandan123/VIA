@@ -56,7 +56,7 @@ export const addUserInRoom = async (req, res) => {
         res.status(404).json({ message: "Cannot add more than seven users" });
       } else {
         if (room.isProtected === false || room.host === userId) {
-          const newUser = await User.findById(data.userId);
+          const newUser = await User.findById(data.newUserId);
           if (newUser.rooms.indexOf(roomId) === -1) {
             newUser.rooms.push(roomId);
             await newUser.save();
@@ -86,7 +86,7 @@ export const removeUserFromRoom = async (req, res) => {
     const user = await User.findById(userId);
     if (user.rooms.includes(roomId)) {
       const room = await Room.findById(roomId);
-      const newUser = await User.findById(data.userId);
+      const newUser = await User.findById(data.newUserId);
       if (newUser.rooms.includes(roomId)) {
         if (room.isProtected === false || room.host === userId) {
           room.users = room.users.filter((u) => u.userId !== data.userId);

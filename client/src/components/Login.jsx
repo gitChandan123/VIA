@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { useSigninMutation } from "../redux/api";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
-  const [signin, { data: response, isSuccess }] = useSigninMutation();
+  const [signin, { data: response, isSuccess, isError,error }] = useSigninMutation();
   const [emailField, setEmailField] = useState("");
   const [passwordField, setPasswordField] = useState("");
 
@@ -21,10 +22,14 @@ function Login() {
   useEffect(() => {
     if (isSuccess) {
       localStorage.setItem("user", JSON.stringify(response.result));
-      navigate("/join");
+      toast.success(`Logged in as ${response.result.name}`);
+      navigate("/");
+    }
+    if (isError) {
+      toast.error(error.data.message)
     }
     //eslint-disable-next-line
-  },[isSuccess])
+  },[isSuccess,isError])
 
   return (
     <div>
