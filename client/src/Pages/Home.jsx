@@ -16,12 +16,12 @@ const Home = () => {
           Create Room
         </Button>
       </Link>
-      {/* <Link to="/chat" style={{ textDecoration: "none" }}>
+      <Link to="/rooms" style={{ textDecoration: "none" }}>
         <Button variant="contained" color="primary" sx={{ m: "5px" }}>
-          Chat
+          Rooms
         </Button>
       </Link>
-      <Link to="/video-call" style={{ textDecoration: "none" }}>
+      {/* <Link to="/video-call" style={{ textDecoration: "none" }}>
         <Button variant="contained" color="primary" sx={{ m: "5px" }}>
           Video Call
         </Button>

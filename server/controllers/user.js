@@ -41,3 +41,12 @@ export const signup = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("name _id email");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};

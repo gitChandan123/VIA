@@ -21,11 +21,17 @@ export const api = createApi({
       }),
     }),
 
+    getUsers: builder.query({
+      query: () => ({
+        url: "users/get-users",
+      }),
+    }),
+
     createRoom: builder.mutation({
       query: (data) => ({
         url: `rooms/${data.userId}`,
         method: "POST",
-        body: {name:data.roomName},
+        body: { name: data.roomName },
       }),
       invalidatesTags: ["Room"],
     }),
@@ -48,7 +54,7 @@ export const api = createApi({
       query: (data) => ({
         url: `rooms/${data.userId}/${data.roomId}/add-user`,
         method: "PATCH",
-        body: data,
+        body: { newUserId: data.newUserId },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Room", id: arg.id }],
     }),
@@ -66,7 +72,7 @@ export const api = createApi({
       query: (data) => ({
         url: `rooms/${data.userId}/${data.roomId}/message`,
         method: "POST",
-        body: data.message,
+        body: { message: data.message },
       }),
     }),
   }),
@@ -75,6 +81,7 @@ export const api = createApi({
 export const {
   useSigninMutation,
   useSignupMutation,
+  useGetUsersQuery,
   useCreateRoomMutation,
   useGetRoomQuery,
   useGetRoomsQuery,

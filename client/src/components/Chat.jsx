@@ -1,53 +1,45 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Box } from "@mui/material";
-import { useSearchParams } from "react-router-dom";
 import io from "socket.io-client";
 import Input from "./Input";
 import Messages from "./Messages";
+import { usePostMessageMutation } from "../redux/api";
 
-const Chat = () => {
+const Chat = ({ userId, name, room, prevMessages }) => {
   const ENDPOINT = "ws://localhost:5000";
-  const [searchParams] = useSearchParams();
   let socket = useRef(null);
-  const name = searchParams.get("name");
-  const room = searchParams.get("room");
-  //eslint-disable-next-line
-  const [users, setUsers] = useState("");
+  const [postMessage] = usePostMessageMutation();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     socket.current = io(ENDPOINT);
-    if (room !== "" && name !== "") {
-      socket.current.emit("join", { name, room }, (error) => {
-        if (error) {
-          console.log(error);
-        }
-      });
-    }
+    socket.current.emit("join", { name, room }, (error) => {
+      if (error) {
+        console.log(error);
+      }
+    });
+    setMessages(prevMessages);
     return () => {
       socket.current?.disconnect();
-    }
+    };
     //eslint-disable-next-line
-  },[])
+  }, []);
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("message", (message) => {
         setMessages((messages) => [...messages, message]);
       });
-
-      socket.current.on("roomData", ({ users }) => {
-        setUsers(users);
-      });
     }
   }, []);
 
-  const sendMessage = (event) => {
+  const sendMessage = async (event) => {
     event.preventDefault();
 
     if (message) {
       socket.current.emit("sendMessage", message, () => setMessage(""));
+      await postMessage({ userId, roomId: room, message });
     }
   };
 

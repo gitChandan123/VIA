@@ -9,6 +9,8 @@ import Auth from "./Pages/Auth";
 import Home from "./Pages/Home";
 import PrivateRoute from "./utils/PrivateRoute";
 import CreateRoomForm from "./components/CreateRoomForm";
+import Rooms from "./components/Rooms";
+import Room from "./components/Room";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
               <Route path="chat" element={<Chat />} />
               <Route path="join" element={<Join />} />
               <Route path="create-room" element={<CreateRoomForm />} />
+              <Route path="rooms" element={<Rooms />} />
+              <Route path="room/:roomId" element={<Room />} />
             </Route>
           </Route>
           <Route path="/auth" element={<Auth />} />

@@ -1,24 +1,24 @@
 import React from "react";
 import {Paper} from "@mui/material";
 
-const Message = ({ message: { user,text }, name }) => {
+const Message = ({ message, name }) => {
   let isSentByCurrentUser = false;
 
   const trimmedName = name.trim().toLowerCase();
 
-  if (user === trimmedName) {
+  if (message.sender === trimmedName) {
     isSentByCurrentUser = true;
   }
   return (isSentByCurrentUser ? (
-    <>
+    <div>
       <p>{name}</p>
-      <Paper>{text}</Paper>
-    </>
+      <Paper>{message.message}</Paper>
+    </div>
   ) : (
-    <>
-      <p>{user}</p>
-      <Paper>{text}</Paper>
-    </>
+    <div>
+      <p>{message.sender}</p>
+      <Paper>{message.message}</Paper>
+    </div>
   ));
 };
 

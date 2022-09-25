@@ -19,7 +19,9 @@ const CreateRoomForm = () => {
       success: "Room created 👌",
       error: "Unable to create room 🤯",
     });
+    setRoomNameField("");
   };
+
 
   return (
     <div>
@@ -27,8 +29,8 @@ const CreateRoomForm = () => {
         <TextField
           required
           variant="outlined"
-          id="Room Name"
-          label="roomName"
+          id="roomName"
+          label="Room Name"
           type="text"
           value={roomNameField}
           onChange={(e) => setRoomNameField(e.target.value)}

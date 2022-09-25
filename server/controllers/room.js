@@ -47,7 +47,7 @@ export const createRoom = async (req, res) => {
 
 export const addUserInRoom = async (req, res) => {
   const { userid: userId, id: roomId } = req.params;
-  const data = req.body;
+  const {newUserId} = req.body;
   try {
     const user = await User.findById(userId);
     if (user.rooms.includes(roomId)) {
@@ -56,11 +56,11 @@ export const addUserInRoom = async (req, res) => {
         res.status(404).json({ message: "Cannot add more than seven users" });
       } else {
         if (room.isProtected === false || room.host === userId) {
-          const newUser = await User.findById(data.newUserId);
+          const newUser = await User.findById(newUserId);
           if (newUser.rooms.indexOf(roomId) === -1) {
             newUser.rooms.push(roomId);
             await newUser.save();
-            room.users.push(data);
+            room.users.push({userId:newUserId,userName:newUser.name});
             room.UpdatedAt = new Date();
             await room.save();
           }
