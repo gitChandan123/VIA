@@ -3,7 +3,7 @@ import { Button, TextField } from "@mui/material";
 
 const Input = ({ setMessage, sendMessage, message }) => {
   return (
-    <>
+    <div style={{ padding:"10px",height: "20%" }}>
       <form>
         <TextField
           id="message"
@@ -15,10 +15,11 @@ const Input = ({ setMessage, sendMessage, message }) => {
           onKeyPress={(event) =>
             event.key === "Enter" ? sendMessage(event) : null
           }
+          size="small"
         />
-        <Button onClick={(e) => sendMessage(e)}>Send</Button>
+        <Button variant="contained" onClick={(e) => sendMessage(e)}>Send</Button>
       </form>
-    </>
+    </div>
   );
 };
 

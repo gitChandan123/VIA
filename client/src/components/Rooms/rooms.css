@@ -1,0 +1,15 @@
+.leftbar.MuiContainer-root {
+  padding-top: 70px;
+  height: 100vh;
+  min-width: 320px;
+}
+
+.leftbar__paper {
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.paper__list {
+  padding: auto;
+}

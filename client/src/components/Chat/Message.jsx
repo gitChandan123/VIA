@@ -9,7 +9,8 @@ const Message = ({ message, name }) => {
   if (message.sender === trimmedName) {
     isSentByCurrentUser = true;
   }
-  return (isSentByCurrentUser ? (
+  return isSentByCurrentUser ? (
+
     <div>
       <p>{name}</p>
       <Paper>{message.message}</Paper>
@@ -19,7 +20,7 @@ const Message = ({ message, name }) => {
       <p>{message.sender}</p>
       <Paper>{message.message}</Paper>
     </div>
-  ));
+  );
 };
 
 export default Message;

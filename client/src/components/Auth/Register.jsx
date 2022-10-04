@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useSignupMutation } from "../redux/api";
+import { useSignupMutation } from "../../redux/api";
 import { useEffect } from "react";
 
 function Register() {

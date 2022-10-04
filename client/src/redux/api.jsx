@@ -36,6 +36,14 @@ export const api = createApi({
       invalidatesTags: ["Room"],
     }),
 
+    deleteRoom: builder.mutation({
+      query: (data) => ({
+        url: `rooms/${data.userId}/${data.roomId}/delete-room`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Room"],
+    }),
+
     getRooms: builder.query({
       query: ({ userId }) => ({
         url: `rooms/${userId}`,
@@ -74,6 +82,7 @@ export const api = createApi({
         method: "POST",
         body: { message: data.message },
       }),
+      invalidatesTags: (result, error, arg) => [{ type: "Room", id: arg.id }],
     }),
   }),
 });
@@ -83,6 +92,7 @@ export const {
   useSignupMutation,
   useGetUsersQuery,
   useCreateRoomMutation,
+  useDeleteRoomMutation,
   useGetRoomQuery,
   useGetRoomsQuery,
   useAddUserInRoomMutation,

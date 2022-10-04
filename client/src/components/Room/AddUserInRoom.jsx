@@ -6,17 +6,19 @@ import {
   MenuList,
   TextField,
 } from "@mui/material";
-import { useAddUserInRoomMutation, useGetUsersQuery } from "../redux/api";
+import { useAddUserInRoomMutation, useGetUsersQuery } from "../../redux/api";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const AddUserInRoom = ({ roomId, usersInRoom }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const { data: users, isSuccess } = useGetUsersQuery();
+
   const [
     addUserInRoom,
     { isLoading, isSuccess: addUserSuccess, isError, error },
   ] = useAddUserInRoomMutation();
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleClick = async (newUser) => {
@@ -39,11 +41,12 @@ const AddUserInRoom = ({ roomId, usersInRoom }) => {
       <TextField
         variant="outlined"
         id="search"
-        label="Search"
+        label="Search User..."
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         fullWidth
+        autoComplete="off"
         style={{ marginTop: "10px" }}
       />
       <br />

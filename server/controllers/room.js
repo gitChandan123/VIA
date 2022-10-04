@@ -45,9 +45,41 @@ export const createRoom = async (req, res) => {
   }
 };
 
+export const deleteRoom = async (req, res) => {
+  const { userid: userId, id: roomId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (user.rooms.includes(roomId)) {
+      const room = await Room.findById(roomId);
+      if (room.isProtected === true && room.host === userId) {
+        for (let i = 0; i < room.users.length; i++) {
+          newUser = User.findById(room.users[i]);
+          if (newUser.rooms.includes(roomId)) {
+            newUser.rooms = newUser.rooms.filter((r) => roomId !== r);
+            await newUser.save();
+          }
+        }
+        await Room.findByIdAndDelete(roomId);
+        res.status(200).json({message:"Room deleted successfully"});
+      } else {
+        room.users = room.users.filter((u) => userId !== u.userId);
+        user.rooms = user.rooms.filter((r) => roomId !== r);
+        room.UpdatedAt = new Date();
+        await user.save();
+        await room.save();
+        res.status(200).json({message:"Room left successfully"});
+      }
+    } else {
+      res.status(404).json({ message: "Room not found" });
+    }
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const addUserInRoom = async (req, res) => {
   const { userid: userId, id: roomId } = req.params;
-  const {newUserId} = req.body;
+  const { newUserId } = req.body;
   try {
     const user = await User.findById(userId);
     if (user.rooms.includes(roomId)) {
@@ -60,7 +92,7 @@ export const addUserInRoom = async (req, res) => {
           if (newUser.rooms.indexOf(roomId) === -1) {
             newUser.rooms.push(roomId);
             await newUser.save();
-            room.users.push({userId:newUserId,userName:newUser.name});
+            room.users.push({ userId: newUserId, userName: newUser.name });
             room.UpdatedAt = new Date();
             await room.save();
           }
@@ -126,13 +158,9 @@ export const postMessage = async (req, res) => {
           message,
         });
         room.UpdatedAt = new Date();
-
-        const updatedRoom = await Room.findByIdAndUpdate(
-          roomId,
-          room,
-          { new: true }
-        );
-
+        const updatedRoom = await Room.findByIdAndUpdate(roomId, room, {
+          new: true,
+        });
         res.json(updatedRoom);
       } else {
         res.status(404).json({ message: "Only host can send messages" });

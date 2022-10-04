@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import io from "socket.io-client";
 import Input from "./Input";
 import Messages from "./Messages";
-import { usePostMessageMutation } from "../redux/api";
+import { usePostMessageMutation } from "../../redux/api";
 
 const Chat = ({ userId, name, room, prevMessages }) => {
   const ENDPOINT = "ws://localhost:5000";
@@ -13,13 +13,16 @@ const Chat = ({ userId, name, room, prevMessages }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    setMessages(prevMessages);
+  },[prevMessages])
+
+  useEffect(() => {
     socket.current = io(ENDPOINT);
     socket.current.emit("join", { name, room }, (error) => {
       if (error) {
         console.log(error);
       }
     });
-    setMessages(prevMessages);
     return () => {
       socket.current?.disconnect();
     };

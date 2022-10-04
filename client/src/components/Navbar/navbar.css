@@ -1,0 +1,14 @@
+.toolbar__iconbutton.MuiIconButton-root {
+  display: none;
+}
+
+.icon__menu.MuiSvgIcon-root {
+  font-size: 40px;
+}
+
+@media (max-width: 1200px) {
+  .toolbar__iconbutton.MuiIconButton-root {
+    display: block;
+  }
+
+}

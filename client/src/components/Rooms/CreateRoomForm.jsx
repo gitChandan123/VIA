@@ -1,7 +1,8 @@
-import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { Button, TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { toast } from "react-toastify";
-import { useCreateRoomMutation } from "../redux/api";
+import { useCreateRoomMutation } from "../../redux/api";
 
 const CreateRoomForm = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -22,31 +23,30 @@ const CreateRoomForm = () => {
     setRoomNameField("");
   };
 
-
   return (
-    <div>
+    <>
       <form onSubmit={onSubmit}>
         <TextField
           required
           variant="outlined"
           id="roomName"
-          label="Room Name"
+          label="Create new room..."
           type="text"
           value={roomNameField}
+          autoComplete="off"
           onChange={(e) => setRoomNameField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
+          size="small"
         />
-        <br />
         <Button
           variant="contained"
           type="submit"
           value="submit"
-          style={{ marginTop: "10px" }}
+          sx={{ borderRadius: 25 }}
         >
-          Create Room
+          <AddIcon />
         </Button>
       </form>
-    </div>
+    </>
   );
 };
 
