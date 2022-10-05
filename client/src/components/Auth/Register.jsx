@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../redux/api";
 import { useEffect } from "react";
@@ -28,85 +27,70 @@ function Register() {
   useEffect(() => {
     if (isSuccess) {
       localStorage.setItem("user", JSON.stringify(response.result));
-      navigate("/join");
+      navigate("/rooms");
     }
     //eslint-disable-next-line
   },[isSuccess])
 
   return (
-    <div>
-      <Typography
-        variant="h4"
-        color="textPrimary"
-      >
-        Register
-      </Typography>
-      <form onSubmit={onSubmit}>
-        <TextField
-          required
-          variant="outlined"
-          id="firstName"
-          label="firstName"
-          type="firstName"
-          value={firstNameField}
-          onChange={(e) => setFirstNameField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
-        />
-        <br />
-        <TextField
-          required
-          variant="outlined"
-          id="lastName"
-          label="lastName"
-          type="lastName"
-          value={lastNameField}
-          onChange={(e) => setLastNameField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
-        />
-        <br />
-        <TextField
-          required
-          variant="outlined"
-          id="email"
-          label="Email"
-          type="email"
-          value={emailField}
-          onChange={(e) => setEmailField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
-        />
-        <br />
-        <TextField
-          required
-          variant="outlined"
-          id="password"
-          label="Password"
-          type="password"
-          value={passwordField}
-          onChange={(e) => setPasswordField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
-        />
-        <br />
-        <TextField
-          required
-          variant="outlined"
-          id="password2"
-          label="Confirm Password"
-          type="password2"
-          value={password2Field}
-          onChange={(e) => setPassword2Field(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
-        />
-        <br />
-        <Button
-          variant="contained"
-          type="submit"
-          value="submit"
-          style={{ marginTop: "10px" }}
-        >
-          Submit
-        </Button>
-      </form>
-    </div>
+      // New Register
+      <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+      <main className="pa4 black-80">
+        <div className="measure">
+        <form onSubmit={onSubmit}>
+          <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+            <legend className="f1 fw6 ph0 mh0">Register</legend>
+          
+            <div className="mt3">
+              <label className="db fw6 lh-copy f6" htmlFor="name">First Name</label>
+              <input
+                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                name="name"
+                id="firstName" type="text" value={firstNameField} onChange={(e) => setFirstNameField(e.target.value)}
+              />
+            </div>
+            <div className="mt3">
+              <label className="db fw6 lh-copy f6" htmlFor="email-address">Last Name</label>
+              <input
+                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+           id="lastName" type="lastName"  value={lastNameField}  onChange={(e) => setLastNameField(e.target.value)}
+              />
+            </div>
+            <div className="mt3">
+              <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+              <input
+                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                id="email"  type="email"  value={emailField}  onChange={(e) => setEmailField(e.target.value)} 
+              />
+            </div>
+            <div className="mv3">
+              <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+              <input
+                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                required id="password"  type="password" value={passwordField} onChange={(e) => setPasswordField(e.target.value)} 
+              />
+            </div>
+            <div className="mv3">
+              <label className="db fw6 lh-copy f6" htmlFor="password">Confirm Password</label>
+              <input
+                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                required id="password2" type="password2" value={password2Field} onChange={(e) => setPassword2Field(e.target.value)}
+              />
+            </div>
+          </fieldset>
+          <div className="">
+            <input
+             className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                      type="submit"
+                      value="submit"
+            />
+          </div>
+        </form>
+         
+        </div>
+      </main>
+    </article>
+
   );
 }
 
