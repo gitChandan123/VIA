@@ -5,6 +5,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import "./navbar.css";
 import Rooms from "../Rooms/Rooms";
+import '../../index.css'
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Navbar = () => {
 
   return (
     <>
+   
       <AppBar
         position="fixed"
         elevation={6}
@@ -34,11 +36,14 @@ const Navbar = () => {
               <CloseIcon className="icon__menu" />
             )}
           </IconButton>
+          <strong>
+            VIA (Video Interaction Application)
+          </strong>
           <Typography sx={{flexGrow: 1}}></Typography>
           <div className="toolbar__div">
-            <Button variant="contained" color="error" onClick={logout}>
+            <button className="bn6" onClick={logout}>
               Logout
-            </Button>
+            </button>
           </div>
         </Toolbar>
       </AppBar>
