@@ -32,46 +32,49 @@ function Login() {
   },[isSuccess,isError])
 
   return (
-    <div>
-      <Typography
-        variant="h4"
-        color="textPrimary"
-      >
-        Login
-      </Typography>
-      <form onSubmit={onSubmit}>
-        <TextField
-          required
-          variant="outlined"
+  
+<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+<main className="pa4 black-80">
+  <div className="measure">
+    <form onSubmit={onSubmit}>
+    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+      <legend className="f1 fw6 ph0 mh0">Sign In</legend>
+      <div className="mt3">
+        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+        <input
+          className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
           id="email"
           label="Email"
           type="email"
           value={emailField}
           onChange={(e) => setEmailField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
         />
-        <br />
-        <TextField
-          required
-          variant="outlined"
+      </div>
+      <div className="mv3">
+        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+        <input
+          className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
           id="password"
           label="Password"
           type="password"
           value={passwordField}
           onChange={(e) => setPasswordField(e.target.value)}
-          style={{ marginTop: "10px", width: "28vw" }}
         />
-        <br />
-        <Button
-          variant="contained"
-          type="submit"
-          value="submit"
-          style={{ marginTop: "10px" }}
-        >
-          Submit
-        </Button>
-      </form>
+      </div>
+    </fieldset>
+   
+    <div className="">
+      <input
+     
+        className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+        type="submit"
+        value="submit"
+      />
     </div>
+    </form>
+  </div>
+</main>
+</article>
   );
 }
 

@@ -16,10 +16,10 @@ const AuthContainer = () => {
   };
 
   return (
-    <Container style={{ marginTop: "25px" }}>
-      <Paper elevation={5} style={{ padding: "10px", maxWidth: "30vw" }}>
+    <Container className="br3 b--black-10 mv4 w-100 w-50-m w-25-l mw6  center" >
+      <Paper elevation={5}>
         <ToggleButtonGroup
-          color="primary"
+         
           value={alignment}
           exclusive
           onChange={handleChange}
