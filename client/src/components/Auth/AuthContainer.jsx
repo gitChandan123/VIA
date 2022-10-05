@@ -16,8 +16,8 @@ const AuthContainer = () => {
   };
 
   return (
-    <Container className="br3 b--black-10 mv4 w-100 w-50-m w-25-l mw6  center" >
-      <Paper elevation={5}>
+    <Container className="br3 b--black-10 mv4 w-100 w-50-m w-25-l mw6 transparent center" >
+      
         <ToggleButtonGroup
          
           value={alignment}
@@ -28,7 +28,7 @@ const AuthContainer = () => {
           <ToggleButton value="register">Register</ToggleButton>
         </ToggleButtonGroup>
         {alignment === "login" ? <Login /> : <Register />}
-      </Paper>
+      {/* </Paper> */}
     </Container>
   );
 };
