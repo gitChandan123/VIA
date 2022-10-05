@@ -28,7 +28,7 @@ function Register() {
   useEffect(() => {
     if (isSuccess) {
       localStorage.setItem("user", JSON.stringify(response.result));
-      navigate("/join");
+      navigate("/rooms");
     }
     //eslint-disable-next-line
   },[isSuccess])
