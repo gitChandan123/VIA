@@ -13,6 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetRoomQuery } from "../../redux/api";
 import AddUserInRoom from "./AddUserInRoom";
 import Chat from "../Chat/Chat";
+import '../../index.css'
 
 const Room = () => {
   const { roomId } = useParams();
@@ -39,8 +40,11 @@ const Room = () => {
         <>
           <AppBar color="transparent" elevation={1} position="static">
             <Toolbar>
+              <strong style={{fontSize: "20px"}}>Room Name  </strong>
               <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                {room.name}
+                <div className="animate-charcter" style={{fontSize: "30px" , paddingLeft: "8px"}}>
+             {room.name}
+                </div>
               </Typography>
               <Typography
                 noWrap
@@ -48,6 +52,9 @@ const Room = () => {
                 component="div"
                 sx={{ flexGrow: 5 }}
               >
+                <em style={{paddingRight: "8px"}}>
+                  Current Members :- 
+                </em>
                 {room.users.map((user) => (
                   <span key={user.userId}>{user.userName}, </span>
                 ))}

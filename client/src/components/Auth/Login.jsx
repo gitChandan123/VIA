@@ -3,6 +3,7 @@ import { TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { useSigninMutation } from "../../redux/api";
 import { toast } from "react-toastify";
+import '../../index.css'
 
 function Login() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ function Login() {
 
   return (
   
-<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+<article className="mine br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 <main className="pa4 black-80">
   <div className="measure">
     <form onSubmit={onSubmit}>

@@ -25,17 +25,19 @@ const CreateRoomForm = () => {
 
   return (
     <>
+    <div className="foot2">
+
       <form onSubmit={onSubmit}>
-        <TextField
+      <label className="db fw6 lh-copy f6">Create a New Room</label>
+        <input
           required
-          variant="outlined"
           id="roomName"
           label="Create new room..."
           type="text"
           value={roomNameField}
           autoComplete="off"
           onChange={(e) => setRoomNameField(e.target.value)}
-          size="small"
+         
         />
         <Button
           variant="contained"
@@ -46,6 +48,7 @@ const CreateRoomForm = () => {
           <AddIcon />
         </Button>
       </form>
+    </div>
     </>
   );
 };
