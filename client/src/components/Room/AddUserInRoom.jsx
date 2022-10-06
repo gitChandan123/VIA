@@ -22,13 +22,13 @@ const AddUserInRoom = ({ roomId, usersInRoom }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleClick = async (newUser) => {
-      await addUserInRoom({ userId: user._id, roomId, newUserId: newUser._id });
+    await addUserInRoom({ userId: user._id, roomId, newUserId: newUser._id });
   };
 
   useEffect(() => {
     if (addUserSuccess) {
-        toast.success("User Added");
-        window.location.reload(false);
+      toast.success("User Added");
+      window.location.reload(false);
     }
     if (isError) {
       toast.error(error.message);

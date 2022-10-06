@@ -14,7 +14,7 @@ const Chat = ({ userId, name, room, prevMessages }) => {
 
   useEffect(() => {
     setMessages(prevMessages);
-  },[prevMessages])
+  }, [prevMessages]);
 
   useEffect(() => {
     socket.current = io(ENDPOINT);

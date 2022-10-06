@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import AgoraUIKit from "agora-react-uikit";
 import { Link, useParams } from "react-router-dom";
-import { Button } from '@mui/material';
+import { Button } from "@mui/material";
 
 const Video = ({ videocall, setVideocall }) => {
   const { roomId } = useParams();

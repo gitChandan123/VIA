@@ -1,53 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField } from "@mui/material";
 import "../../index.css";
 
 const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition
-const mic = new SpeechRecognition()
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+const mic = new SpeechRecognition();
 
-mic.continuous = true
-mic.interimResults = true
-mic.lang = 'en-US';
+mic.continuous = true;
+mic.interimResults = true;
+mic.lang = "en-US";
 
 const Input = ({ setMessage, sendMessage, message }) => {
-  const [isListening, setIsListening] = useState(false)
+  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
-    handleListen()
+    handleListen();
     //eslint-disable-next-line
-  }, [isListening])
+  }, [isListening]);
 
   const handleListen = () => {
     if (isListening) {
-      mic.start()
+      mic.start();
       mic.onend = () => {
-        console.log('continue..')
-        mic.start()
-      }
+        console.log("continue..");
+        mic.start();
+      };
     } else {
-      mic.stop()
+      mic.stop();
       mic.onend = () => {
-        console.log('Stopped Mic on Click')
-      }
+        console.log("Stopped Mic on Click");
+      };
     }
     mic.onstart = () => {
-      console.log('Mics on')
-    }
+      console.log("Mics on");
+    };
 
-    mic.onresult = event => {
+    mic.onresult = (event) => {
       const transcript = Array.from(event.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('')
-      console.log(transcript)
-      setMessage(transcript)
-      mic.onerror = event => {
-        console.log(event.error)
-      }
-    }
-  }
-
+        .map((result) => result[0])
+        .map((result) => result.transcript)
+        .join("");
+      console.log(transcript);
+      setMessage(transcript);
+      mic.onerror = (event) => {
+        console.log(event.error);
+      };
+    };
+  };
 
   return (
     <div className="foot form-group d-flex">

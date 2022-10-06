@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppBar, Button, Drawer, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Drawer, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseIcon from "@mui/icons-material/Close";
 import "./navbar.css";
 import Rooms from "../Rooms/Rooms";
-import '../../index.css'
+import "../../index.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ const Navbar = () => {
 
   return (
     <>
-   
       <AppBar
         position="fixed"
         elevation={6}
@@ -36,10 +35,8 @@ const Navbar = () => {
               <CloseIcon className="icon__menu" />
             )}
           </IconButton>
-          <strong>
-            VIA (Video Interaction Application)
-          </strong>
-          <Typography sx={{flexGrow: 1}}></Typography>
+          <strong>VIA (Video Interaction Application)</strong>
+          <Typography sx={{ flexGrow: 1 }}></Typography>
           <div className="toolbar__div">
             <button className="bn6" onClick={logout}>
               Logout

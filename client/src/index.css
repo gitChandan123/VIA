@@ -1,8 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Courier New", Courier, monospace;
-   /* background: linear-gradient(95deg, red, blue); */
+  font-family: "Roboto","Courier New", Courier, monospace;
    background-color: whitesmoke;
 }
 
@@ -17,7 +16,7 @@ button {
   position: fixed;
   bottom: 8px;
   width: 75%;
-} 
+}
 .foot2 {
   position: fixed;
   bottom: 20px;
