@@ -11,10 +11,17 @@ const Chat = ({ userId, name, room, prevMessages }) => {
   const [postMessage] = usePostMessageMutation();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const scrollRef = useRef();
 
   useEffect(() => {
     setMessages(prevMessages);
   }, [prevMessages]);
+
+  useEffect(
+    () =>
+      scrollRef.current?.scrollIntoView({ block: "end", behaviour: "smooth" }),
+    [messages]
+  );
 
   useEffect(() => {
     socket.current = io(ENDPOINT);
@@ -48,7 +55,9 @@ const Chat = ({ userId, name, room, prevMessages }) => {
 
   return (
     <Box>
-      <Messages messages={messages} name={name} />
+      <div ref={scrollRef}>
+        <Messages messages={messages} name={name} />
+      </div>
       <Input
         message={message}
         setMessage={setMessage}

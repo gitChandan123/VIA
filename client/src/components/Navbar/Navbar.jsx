@@ -39,6 +39,7 @@ const Navbar = () => {
           <Typography sx={{ flexGrow: 1 }}></Typography>
           <div className="toolbar__div">
             <button className="bn6" onClick={logout}>
+
               Logout
             </button>
           </div>

@@ -4,12 +4,12 @@ import CreateRoomForm from "./CreateRoomForm";
 import { useGetRoomsQuery } from "../../redux/api";
 import {
   Container,
-  List,
-  ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Paper,
 } from "@mui/material";
+import GroupsIcon from "@mui/icons-material/Groups";
 import "./rooms.css";
 
 const Rooms = () => {
@@ -23,20 +23,27 @@ const Rooms = () => {
       <Paper className="leftbar__paper">
         <div style={{ height: "72vh" }}>
           {isSuccess && data.length && (
-            <List component="nav" className="paper__list">
+            <ul className="list-group">
               {data.map((room) => (
-                <ListItem alignItems="center" divider key={room._id}>
+                <li key={room._id} className="list-group-item">
                   <Link
                     to={`/rooms/${room._id}`}
                     style={{ textDecoration: "none" }}
                   >
-                    <ListItemButton>
-                      <ListItemText>{room.name}</ListItemText>
-                    </ListItemButton>
+                    {
+                      <ListItemButton>
+                        <ListItemIcon>
+                          <GroupsIcon />
+                        </ListItemIcon>
+                        <ListItemText>
+                            <span className="fw-bold">{room.name}</span>
+                        </ListItemText>
+                      </ListItemButton>
+                    }
                   </Link>
-                </ListItem>
+                </li>
               ))}
-            </List>
+            </ul>
           )}
           {isError && <p>{error.message}</p>}
         </div>

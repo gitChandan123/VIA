@@ -4,7 +4,6 @@ import {
   ListItemText,
   MenuItem,
   MenuList,
-  TextField,
 } from "@mui/material";
 import { useAddUserInRoomMutation, useGetUsersQuery } from "../../redux/api";
 import { useEffect } from "react";
@@ -38,16 +37,13 @@ const AddUserInRoom = ({ roomId, usersInRoom }) => {
 
   return (
     <div>
-      <TextField
-        variant="outlined"
-        id="search"
-        label="Search User..."
+      <input
+        placeholder="Search User..."
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        fullWidth
-        autoComplete="off"
         style={{ marginTop: "10px" }}
+        className="form-control bg-light"
       />
       <br />
       <div>

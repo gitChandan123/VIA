@@ -1,7 +1,7 @@
 import React from "react";
 import AgoraUIKit from "agora-react-uikit";
-import { Link, useParams } from "react-router-dom";
-import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
+import CallWaiting from "./CallWaiting";
 
 const Video = ({ videocall, setVideocall }) => {
   const { roomId } = useParams();
@@ -26,14 +26,7 @@ const Video = ({ videocall, setVideocall }) => {
           <AgoraUIKit rtcProps={props.rtcProps} callbacks={props.callbacks} />
         </div>
       ) : (
-        <>
-          <Button variant="contained" onClick={() => setVideocall(true)}>
-            Start Call
-          </Button>
-          <Link to="/rooms" style={{ textDecoration: "none" }}>
-            <Button variant="contained">Home</Button>
-          </Link>
-        </>
+        <CallWaiting roomId={roomId} setVideocall={setVideocall} />
       )}
     </div>
   );
