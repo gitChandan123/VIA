@@ -16,6 +16,7 @@ button {
   position: fixed;
   bottom: 8px;
   width: 75%;
+  margin: 0 10;
 }
 .foot2 {
   position: fixed;
@@ -79,4 +80,10 @@ button {
     #161616 90% 100%
   );
   animation: background 3s linear infinite;
+}
+
+@media (max-width: 1200px) {
+  .foot {
+    width:100%;
+  }
 }

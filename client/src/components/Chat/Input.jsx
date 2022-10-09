@@ -13,7 +13,7 @@ mic.continuous = true;
 mic.interimResults = true;
 mic.lang = "en-US";
 
-const Input = ({ setMessage, sendMessage, message }) => {
+const Input = ({ room, userId,setMessage, sendMessage, message }) => {
   const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
@@ -51,42 +51,54 @@ const Input = ({ setMessage, sendMessage, message }) => {
     };
   };
 
-  return (
-    <div className="foot form-group d-flex">
-      <input
-        id="message"
-        placeholder="Type a message..."
-        value={message}
-        className="form-control bg-light"
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyPress={(event) =>
-          event.key === "Enter" ? sendMessage(event) : null
-        }
-      />
-      {isListening ? (
-        <Tooltip arrow title="🔴Stop Listening">
-          <button
-            onClick={() => setIsListening((prevState) => !prevState)}
-            className="btn btn-danger mx-2"
-          >
-            <MicOffSharpIcon />
-          </button>
-        </Tooltip>
-      ) : (
-        <Tooltip arrow title="👂Start Listening">
-          <button
-            onClick={() => setIsListening((prevState) => !prevState)}
-            className="btn btn-primary mx-2"
-          >
-            <MicSharpIcon />
-          </button>
-        </Tooltip>
-      )}
-      <button onClick={(e) => sendMessage(e)} className="btn btn-primary mx-2">
-        <SendIcon />
-      </button>
-    </div>
-  );
-};
+  if (room.isProtected === false || room.host === userId) {
+    return (
+      <div className="foot form-group d-flex">
+        <input
+          id="message"
+          placeholder="Type a message..."
+          value={message}
+          className="form-control bg-light"
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={(event) =>
+            event.key === "Enter" ? sendMessage(event) : null
+          }
+        />
+        {isListening ? (
+          <Tooltip arrow title="🔴Stop Listening">
+            <button
+              onClick={() => setIsListening((prevState) => !prevState)}
+              className="btn btn-danger mx-2"
+            >
+              <MicOffSharpIcon />
+            </button>
+          </Tooltip>
+        ) : (
+          <Tooltip arrow title="👂Start Listening">
+            <button
+              onClick={() => setIsListening((prevState) => !prevState)}
+              className="btn btn-primary mx-2"
+            >
+              <MicSharpIcon />
+            </button>
+          </Tooltip>
+        )}
+        <button
+          onClick={(e) => sendMessage(e)}
+          className="btn btn-primary mr-2"
+        >
+          <SendIcon />
+        </button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="foot">
+        <h4>Only host can send message.</h4>
+      </div>
+    );
+  }
+  };
+
 
 export default Input;

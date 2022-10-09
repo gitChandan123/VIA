@@ -5,7 +5,7 @@ const CallWaiting = ({roomId,setVideocall}) => {
   return (
     <>
       <Button variant="contained" onClick={() => setVideocall(true)}>
-        Start Call
+        Join Call
       </Button>
       <Link to={`/rooms/${roomId}`} style={{ textDecoration: "none" }}>
         <Button variant="contained">Home</Button>

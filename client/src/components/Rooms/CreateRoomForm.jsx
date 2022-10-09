@@ -30,7 +30,7 @@ const CreateRoomForm = () => {
         <form className="form-group d-flex" onSubmit={onSubmit}>
           <input
             required
-            for="roomName"
+            id="roomName"
             type="text"
             value={roomNameField}
             autoComplete="off"

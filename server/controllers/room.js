@@ -77,6 +77,31 @@ export const deleteRoom = async (req, res) => {
   }
 };
 
+export const editRoom = async (req, res) => {
+  const { userid: userId, id: roomId } = req.params;
+  const { isProtected } = req.body;
+  try {
+    const user = await User.findById(userId);
+    if (user.rooms.includes(roomId)) {
+      const room = await Room.findById(roomId);
+      if (room.host === userId) {
+        room.isProtected = isProtected;
+        room.UpdatedAt = new Date();
+        await room.save();
+        res.status(200).json(room);
+      } else {
+        res
+          .status(404)
+          .json({ message: "You don't have permission to edit room" });
+      }
+    } else {
+      res.status(404).json({ message: "Room not found" });
+    }
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const addUserInRoom = async (req, res) => {
   const { userid: userId, id: roomId } = req.params;
   const { newUserId } = req.body;

@@ -11,10 +11,16 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDeleteRoomMutation, useGetRoomQuery } from "../../redux/api";
+import {
+  useDeleteRoomMutation,
+  useEditRoomMutation,
+  useGetRoomQuery,
+} from "../../redux/api";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import LockIcon from "@mui/icons-material/Lock";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 import AddUserInRoom from "./AddUserInRoom";
 import Chat from "../Chat/Chat";
 import "../../index.css";
@@ -24,12 +30,14 @@ const Room = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const [isProtected, setIsProtected] = useState(true);
   const {
     data: room,
     isSuccess,
     isError,
     error,
   } = useGetRoomQuery({ userId: user._id, roomId });
+
   const [
     deleteRoom,
     {
@@ -39,6 +47,8 @@ const Room = () => {
       error: deleteError,
     },
   ] = useDeleteRoomMutation();
+
+  const [editRoom] = useEditRoomMutation();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -52,6 +62,17 @@ const Room = () => {
   const handleClick = async () => {
     await deleteRoom({ userId: user._id, roomId });
   };
+
+  const handleChange = async () => {
+    await editRoom({ userId: user._id, roomId, isProtected: !isProtected });
+    setIsProtected(!isProtected);
+  };
+
+  useEffect(() => {
+    if (isSuccess) setIsProtected(room.isProtected);
+    if (isError) toast.error(error.message);
+    //eslint-disable-next-line
+  }, [isSuccess,isError]);
 
   useEffect(() => {
     if (isDeleteSuccess) {
@@ -88,14 +109,18 @@ const Room = () => {
                   <span key={user.userId}>{user.userName}, </span>
                 ))}
               </Typography>
-              <Tooltip arrow title="Add User in room">
-                <button
-                  onClick={handleClickOpen}
-                  className="btn btn-primary mx-2"
-                >
-                  <PersonAddAlt1Icon />
-                </button>
-              </Tooltip>
+
+              {room.host === user._id && (
+                <Tooltip arrow title="Add User in room">
+                  <button
+                    onClick={handleClickOpen}
+                    className="btn btn-primary mx-2"
+                  >
+                    <PersonAddAlt1Icon />
+                  </button>
+                </Tooltip>
+              )}
+
               <Link
                 to={`/video-call/${roomId}`}
                 style={{ textDecoration: "none" }}
@@ -106,11 +131,36 @@ const Room = () => {
                   </button>
                 </Tooltip>
               </Link>
+
               <Tooltip arrow title="Leave Room">
                 <button onClick={handleClick} className="btn btn-danger mx-2">
                   <ExitToAppIcon />
                 </button>
               </Tooltip>
+
+              {room.host === user._id && (
+                <>
+                  {isProtected ? (
+                    <Tooltip arrow title="Unlock Room">
+                      <button
+                        onClick={handleChange}
+                        className="btn btn-success mx-2"
+                      >
+                        <LockOpenIcon />
+                      </button>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip arrow title="Lock Room">
+                      <button
+                        onClick={handleChange}
+                        className="btn btn-danger mx-2"
+                      >
+                        <LockIcon />
+                      </button>
+                    </Tooltip>
+                  )}
+                </>
+              )}
             </Toolbar>
           </AppBar>
 
@@ -128,13 +178,12 @@ const Room = () => {
             <Chat
               userId={user._id}
               name={user.name}
-              room={roomId}
+              room={room}
               prevMessages={room.messages}
             />
           </div>
         </>
       )}
-      {isError && <h1>{error.message}</h1>}
     </>
   );
 };
