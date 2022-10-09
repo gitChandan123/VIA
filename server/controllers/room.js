@@ -60,14 +60,14 @@ export const deleteRoom = async (req, res) => {
           }
         }
         await Room.findByIdAndDelete(roomId);
-        res.status(200).json({message:"Room deleted successfully"});
+        res.status(200).json({ message: "Room deleted successfully" });
       } else {
         room.users = room.users.filter((u) => userId !== u.userId);
         user.rooms = user.rooms.filter((r) => roomId !== r);
         room.UpdatedAt = new Date();
         await user.save();
         await room.save();
-        res.status(200).json({message:"Room left successfully"});
+        res.status(200).json({ message: "Room left successfully" });
       }
     } else {
       res.status(404).json({ message: "Room not found" });
@@ -138,15 +138,15 @@ export const addUserInRoom = async (req, res) => {
 
 export const removeUserFromRoom = async (req, res) => {
   const { userid: userId, id: roomId } = req.params;
-  const data = req.body;
+  const { newUserId } = req.body;
   try {
     const user = await User.findById(userId);
     if (user.rooms.includes(roomId)) {
       const room = await Room.findById(roomId);
-      const newUser = await User.findById(data.newUserId);
+      const newUser = await User.findById(newUserId);
       if (newUser.rooms.includes(roomId)) {
         if (room.isProtected === false || room.host === userId) {
-          room.users = room.users.filter((u) => u.userId !== data.userId);
+          room.users = room.users.filter((u) => u.userId !== newUserId);
           room.UpdatedAt = new Date();
           await room.save();
           newUser.rooms = newUser.rooms.filter((r) => roomId !== r);

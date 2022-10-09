@@ -34,19 +34,18 @@ function Register() {
 
   return (
     // New Register
-    <article className=" mine br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+    <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
       <main className="pa4 black-80">
         <div className="measure">
           <form onSubmit={onSubmit}>
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Register</legend>
-
               <div className="mt3">
                 <label className="db fw6 lh-copy f6" htmlFor="name">
                   First Name
                 </label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   name="name"
                   id="firstName"
                   type="text"
@@ -59,7 +58,7 @@ function Register() {
                   Last Name
                 </label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   id="lastName"
                   type="lastName"
                   value={lastNameField}
@@ -71,7 +70,7 @@ function Register() {
                   Email
                 </label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   id="email"
                   type="email"
                   value={emailField}
@@ -83,7 +82,7 @@ function Register() {
                   Password
                 </label>
                 <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   required
                   id="password"
                   type="password"
@@ -96,10 +95,10 @@ function Register() {
                   Confirm Password
                 </label>
                 <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   required
                   id="password2"
-                  type="password2"
+                  type="password"
                   value={password2Field}
                   onChange={(e) => setPassword2Field(e.target.value)}
                 />

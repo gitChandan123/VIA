@@ -51,7 +51,7 @@ export const api = createApi({
       query: (data) => ({
         url: `rooms/${data.userId}/${data.roomId}/edit-room`,
         method: "POST",
-        body: {isProtected: data.isProtected}
+        body: { isProtected: data.isProtected },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Room", id: arg.id }],
     }),
@@ -83,7 +83,7 @@ export const api = createApi({
       query: (data) => ({
         url: `rooms/${data.userId}/${data.roomId}/remove-user`,
         method: "PATCH",
-        body: data,
+        body: { newUserId: data.newUserId },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Room", id: arg.id }],
     }),

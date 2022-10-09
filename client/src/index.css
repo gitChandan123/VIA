@@ -5,10 +5,6 @@ body {
    background-color: whitesmoke;
 }
 
-.mine {
-  background: linear-gradient(95deg, red, blue);
-}
-
 button {
   cursor: pointer;
 }
