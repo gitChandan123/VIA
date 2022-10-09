@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { toast } from "react-toastify";
 import { useCreateRoomMutation } from "../../redux/api";
+import "../../index.css";
 
 const CreateRoomForm = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,30 +25,23 @@ const CreateRoomForm = () => {
 
   return (
     <>
-    <div className="foot2">
-
-      <form onSubmit={onSubmit}>
-      <label className="db fw6 lh-copy f6">Create a New Room</label>
-        <input
-          required
-          id="roomName"
-          label="Create new room..."
-          type="text"
-          value={roomNameField}
-          autoComplete="off"
-          onChange={(e) => setRoomNameField(e.target.value)}
-         
-        />
-        <Button
-          variant="contained"
-          type="submit"
-          value="submit"
-          sx={{ borderRadius: 25 }}
-        >
-          <AddIcon />
-        </Button>
-      </form>
-    </div>
+      <div className="foot2">
+        <label className="fw-bold" htmlFor="roomName">Create new room</label>
+        <form className="form-group d-flex" onSubmit={onSubmit}>
+          <input
+            required
+            id="roomName"
+            type="text"
+            value={roomNameField}
+            autoComplete="off"
+            onChange={(e) => setRoomNameField(e.target.value)}
+            className="form-control bg-light"
+          />
+          <button type="submit" value="submit" className="btn btn-primary mx-2">
+            <AddIcon />
+          </button>
+        </form>
+      </div>
     </>
   );
 };

@@ -7,6 +7,7 @@ import VideoCall from "./Pages/VideoCallPage/VideoCall";
 import Auth from "./Pages/AuthPage/Auth";
 import ChatPage from "./Pages/ChatPage/ChatPage";
 import Room from "./components/Room/Room";
+import NoChatSelected from "./components/Room/NoChatSelected";
 
 const App = () => {
   return (
@@ -18,7 +19,7 @@ const App = () => {
             <Route path="video-call/:roomId" element={<VideoCall />} />
             <Route path="rooms" element={<ChatPage />}>
               <Route path=":roomId" element={<Room />} />
-              <Route path="" element={<h1>No chat selected</h1>} />
+              <Route path="" element={<NoChatSelected />} />
             </Route>
           </Route>
           <Route path="/auth" element={<Auth />} />

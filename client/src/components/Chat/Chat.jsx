@@ -6,19 +6,26 @@ import Messages from "./Messages";
 import { usePostMessageMutation } from "../../redux/api";
 
 const Chat = ({ userId, name, room, prevMessages }) => {
-  const ENDPOINT = "ws://localhost:5000";
+  const ENDPOINT = process.env.REACT_APP_ENDPOINT;
   let socket = useRef(null);
   const [postMessage] = usePostMessageMutation();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const scrollRef = useRef();
 
   useEffect(() => {
     setMessages(prevMessages);
-  },[prevMessages])
+  }, [prevMessages]);
+
+  useEffect(
+    () =>
+      scrollRef.current?.scrollIntoView({ block: "end", behaviour: "smooth" }),
+    [messages]
+  );
 
   useEffect(() => {
     socket.current = io(ENDPOINT);
-    socket.current.emit("join", { name, room }, (error) => {
+    socket.current.emit("join", { name, room: room._id }, (error) => {
       if (error) {
         console.log(error);
       }
@@ -42,14 +49,18 @@ const Chat = ({ userId, name, room, prevMessages }) => {
 
     if (message) {
       socket.current.emit("sendMessage", message, () => setMessage(""));
-      await postMessage({ userId, roomId: room, message });
+      await postMessage({ userId, roomId: room._id, message });
     }
   };
 
   return (
     <Box>
-      <Messages messages={messages} name={name} />
+      <div ref={scrollRef}>
+        <Messages messages={messages} name={name} />
+      </div>
       <Input
+        room={room}
+        userId={userId}
         message={message}
         setMessage={setMessage}
         sendMessage={sendMessage}

@@ -48,12 +48,12 @@ mongoose
         socket.join(user.room);
 
         callback();
-      }); 
+      });
 
       socket.on("sendMessage", (message, callback) => {
         const user = getUser(socket.id);
 
-        io.to(user.room).emit("message", { sender: user.name, message: message });
+        io.to(user.room).emit("message", { sender: user.name, message: message,timestamp: new Date() });
 
         callback();
       });
@@ -62,6 +62,6 @@ mongoose
         removeUser(socket.id);
       });
     });
-    
+
   })
   .catch((error) => console.log(error.message));

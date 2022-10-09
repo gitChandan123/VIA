@@ -1,8 +1,8 @@
-import React from 'react';
-import { Container } from '@mui/system';
-import { Outlet } from 'react-router-dom';
-import Rooms from '../../components/Rooms/Rooms';
-import Navbar from '../../components/Navbar/Navbar';
+import React from "react";
+import { Container } from "@mui/system";
+import { Outlet } from "react-router-dom";
+import Rooms from "../../components/Rooms/Rooms";
+import Navbar from "../../components/Navbar/Navbar";
 import "./chatPage.css";
 
 const ChatPage = () => {
@@ -21,6 +21,6 @@ const ChatPage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ChatPage
+export default ChatPage;

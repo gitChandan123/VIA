@@ -1,29 +1,61 @@
-import React from "react";
-import { Button, TextField } from "@mui/material";
-import '../../index.css'
-const Input = ({ setMessage, sendMessage, message }) => {
-  return (
-    // <div style={{ padding:"10px",height: "20%" }}>
-    //   <form>
-    //     <TextField
-    //       id="message"
-    //       variant="outlined"
-    //       label="message"
-    //       placeholder="Type a message..."
-    //       value={message}
-    //       onChange={(e) => setMessage(e.target.value)}
-    //       onKeyPress={(event) =>
-    //         event.key === "Enter" ? sendMessage(event) : null
-    //       }
-    //       size="small"
-    //     />
-    //     <Button variant="contained" onClick={(e) => sendMessage(e)}>Send</Button>
-    //   </form>
-    // </div>
+import React, { useEffect, useState } from "react";
+import MicSharpIcon from "@mui/icons-material/MicSharp";
+import MicOffSharpIcon from "@mui/icons-material/MicOffSharp";
+import SendIcon from "@mui/icons-material/Send";
+import "../../index.css";
+import { Tooltip } from "@mui/material";
 
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+const mic = new SpeechRecognition();
 
-<div className="foot form-group d-flex">
-<input id="message" 
+mic.continuous = true;
+mic.interimResults = true;
+mic.lang = "en-US";
+
+const Input = ({ room, userId,setMessage, sendMessage, message }) => {
+  const [isListening, setIsListening] = useState(false);
+
+  useEffect(() => {
+    handleListen();
+    //eslint-disable-next-line
+  }, [isListening]);
+
+  const handleListen = () => {
+    if (isListening) {
+      mic.start();
+      mic.onend = () => {
+        console.log("continue..");
+        mic.start();
+      };
+    } else {
+      mic.stop();
+      mic.onend = () => {
+        console.log("Stopped Mic on Click");
+      };
+    }
+    mic.onstart = () => {
+      console.log("Mics on");
+    };
+
+    mic.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map((result) => result[0])
+        .map((result) => result.transcript)
+        .join("");
+      console.log(transcript);
+      setMessage(transcript);
+      mic.onerror = (event) => {
+        console.log(event.error);
+      };
+    };
+  };
+
+  if (room.isProtected === false || room.host === userId) {
+    return (
+      <div className="foot form-group d-flex">
+        <input
+          id="message"
           placeholder="Type a message..."
           value={message}
           className="form-control bg-light"
@@ -31,15 +63,42 @@ const Input = ({ setMessage, sendMessage, message }) => {
           onKeyPress={(event) =>
             event.key === "Enter" ? sendMessage(event) : null
           }
-/>
-<button onClick={(e) => sendMessage(e)} className="btn btn-primary mx-2"  >
-   
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-send" viewBox="0 0 16 16">
-            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
-        </svg>
-                        </button>   
-</div>
-  );
-};
+        />
+        {isListening ? (
+          <Tooltip arrow title="🔴Stop Listening">
+            <button
+              onClick={() => setIsListening((prevState) => !prevState)}
+              className="btn btn-danger mx-2"
+            >
+              <MicOffSharpIcon />
+            </button>
+          </Tooltip>
+        ) : (
+          <Tooltip arrow title="👂Start Listening">
+            <button
+              onClick={() => setIsListening((prevState) => !prevState)}
+              className="btn btn-primary mx-2"
+            >
+              <MicSharpIcon />
+            </button>
+          </Tooltip>
+        )}
+        <button
+          onClick={(e) => sendMessage(e)}
+          className="btn btn-primary mr-2"
+        >
+          <SendIcon />
+        </button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="foot">
+        <h4>Only host can send message.</h4>
+      </div>
+    );
+  }
+  };
+
 
 export default Input;
