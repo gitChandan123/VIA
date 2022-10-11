@@ -21,10 +21,12 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import AddUserInRoom from "./AddUserInRoom";
 import Chat from "../Chat/Chat";
 import "../../index.css";
 import { toast } from "react-toastify";
+import RemoveUserFromRoom from "./RemoveUserFromRoom";
 
 const Room = () => {
   const { roomId } = useParams();
@@ -50,6 +52,7 @@ const Room = () => {
 
   const [editRoom] = useEditRoomMutation();
   const [open, setOpen] = useState(false);
+  const [openRemove, setOpenRemove] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,6 +60,14 @@ const Room = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickOpenRemove = () => {
+    setOpenRemove(true);
+  };
+
+  const handleCloseRemove = () => {
+    setOpenRemove(false);
   };
 
   const handleClick = async () => {
@@ -72,7 +83,7 @@ const Room = () => {
     if (isSuccess) setIsProtected(room.isProtected);
     if (isError) toast.error(error.message);
     //eslint-disable-next-line
-  }, [isSuccess,isError]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     if (isDeleteSuccess) {
@@ -117,6 +128,17 @@ const Room = () => {
                     className="btn btn-primary mx-2"
                   >
                     <PersonAddAlt1Icon />
+                  </button>
+                </Tooltip>
+              )}
+
+              {room.host === user._id && (
+                <Tooltip arrow title="Remove User from room">
+                  <button
+                    onClick={handleClickOpenRemove}
+                    className="btn btn-danger mx-2"
+                  >
+                    <PersonRemoveIcon />
                   </button>
                 </Tooltip>
               )}
@@ -171,6 +193,21 @@ const Room = () => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={openRemove}
+            onClose={handleCloseRemove}
+            maxWidth="sm"
+            fullWidth
+          >
+            <DialogTitle>Remove User:</DialogTitle>
+            <DialogContent>
+              <RemoveUserFromRoom roomId={roomId} usersInRoom={room.users} />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseRemove}>Cancel</Button>
             </DialogActions>
           </Dialog>
 

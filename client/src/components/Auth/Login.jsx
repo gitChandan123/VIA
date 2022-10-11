@@ -33,7 +33,7 @@ function Login() {
   }, [isSuccess, isError]);
 
   return (
-    <article className="mine br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+    <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
       <main className="pa4 black-80">
         <div className="measure">
           <form onSubmit={onSubmit}>
@@ -44,7 +44,7 @@ function Login() {
                   Email
                 </label>
                 <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   id="email"
                   label="Email"
                   type="email"
@@ -57,7 +57,7 @@ function Login() {
                   Password
                 </label>
                 <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent hover-bg-black w-100"
                   id="password"
                   label="Password"
                   type="password"
