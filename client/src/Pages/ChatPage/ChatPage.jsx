@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Rooms from "../../components/Rooms/Rooms";
 import Navbar from "../../components/Navbar/Navbar";
 import "./chatPage.css";
+import "../../index.scss";
 
 const ChatPage = () => {
   return (
@@ -13,10 +14,12 @@ const ChatPage = () => {
         <div className="home__leftbar">
           <Rooms />
         </div>
-        <div className="home__root">
-          <Container className="root__container">
-            <Outlet />
-          </Container>
+        <div className="homie">
+          <div className="home__root">
+            <Container className="root__container">
+              <Outlet />
+            </Container>
+          </div>
         </div>
       </div>
     </div>

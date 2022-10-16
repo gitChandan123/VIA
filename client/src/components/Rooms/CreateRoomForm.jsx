@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { toast } from "react-toastify";
 import { useCreateRoomMutation } from "../../redux/api";
 import "../../index.css";
+import "../../index.scss";
 
 const CreateRoomForm = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -37,7 +38,7 @@ const CreateRoomForm = () => {
             onChange={(e) => setRoomNameField(e.target.value)}
             className="form-control bg-light"
           />
-          <button type="submit" value="submit" className="btn btn-primary mx-2">
+          <button type="submit" value="submit" className="btn btn-primary">
             <AddIcon />
           </button>
         </form>

@@ -1,0 +1,21 @@
+.messages {
+    padding: 10px;
+
+    .row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+
+.sidebar {
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.homie {
+    width: 70%;
+    max-height: 100% !important;
+}
