@@ -27,6 +27,7 @@ import Chat from "../Chat/Chat";
 import "../../index.css";
 import { toast } from "react-toastify";
 import RemoveUserFromRoom from "./RemoveUserFromRoom";
+import { Box } from "@mui/system";
 
 const Room = () => {
   const { roomId } = useParams();
@@ -121,68 +122,72 @@ const Room = () => {
                 ))}
               </Typography>
 
-              {room.host === user._id && (
-                <Tooltip arrow title="Add User in room">
-                  <button
-                    onClick={handleClickOpen}
-                    className="btn btn-primary mx-2"
-                  >
-                    <PersonAddAlt1Icon />
-                  </button>
-                </Tooltip>
-              )}
-
-              {room.host === user._id && (
-                <Tooltip arrow title="Remove User from room">
-                  <button
-                    onClick={handleClickOpenRemove}
-                    className="btn btn-danger mx-2"
-                  >
-                    <PersonRemoveIcon />
-                  </button>
-                </Tooltip>
-              )}
-
-              <Link
-                to={`/video-call/${roomId}`}
-                style={{ textDecoration: "none" }}
+              <Box
+                sx={{ display: { xs: "none", md: "flex" } }}
               >
-                <Tooltip arrow title="Start Video Call">
-                  <button className="btn btn-primary mx-2">
-                    <VideocamIcon />
+                {room.host === user._id && (
+                  <Tooltip arrow title="Add User in room">
+                    <button
+                      onClick={handleClickOpen}
+                      className="btn btn-primary mx-2"
+                    >
+                      <PersonAddAlt1Icon />
+                    </button>
+                  </Tooltip>
+                )}
+
+                {room.host === user._id && (
+                  <Tooltip arrow title="Remove User from room">
+                    <button
+                      onClick={handleClickOpenRemove}
+                      className="btn btn-danger mx-2"
+                    >
+                      <PersonRemoveIcon />
+                    </button>
+                  </Tooltip>
+                )}
+
+                <Link
+                  to={`/video-call/${roomId}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Tooltip arrow title="Start Video Call">
+                    <button className="btn btn-primary mx-2">
+                      <VideocamIcon />
+                    </button>
+                  </Tooltip>
+                </Link>
+
+                <Tooltip arrow title="Leave Room">
+                  <button onClick={handleClick} className="btn btn-danger mx-2">
+                    <ExitToAppIcon />
                   </button>
                 </Tooltip>
-              </Link>
 
-              <Tooltip arrow title="Leave Room">
-                <button onClick={handleClick} className="btn btn-danger mx-2">
-                  <ExitToAppIcon />
-                </button>
-              </Tooltip>
-
-              {room.host === user._id && (
-                <>
-                  {isProtected ? (
-                    <Tooltip arrow title="Unlock Room">
-                      <button
-                        onClick={handleChange}
-                        className="btn btn-success mx-2"
-                      >
-                        <LockOpenIcon />
-                      </button>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip arrow title="Lock Room">
-                      <button
-                        onClick={handleChange}
-                        className="btn btn-danger mx-2"
-                      >
-                        <LockIcon />
-                      </button>
-                    </Tooltip>
-                  )}
-                </>
-              )}
+                {room.host === user._id && (
+                  <>
+                    {isProtected ? (
+                      <Tooltip arrow title="Unlock Room">
+                        <button
+                          onClick={handleChange}
+                          className="btn btn-success mx-2"
+                        >
+                          <LockOpenIcon />
+                        </button>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip arrow title="Lock Room">
+                        <button
+                          onClick={handleChange}
+                          className="btn btn-danger mx-2"
+                        >
+                          <LockIcon />
+                        </button>
+                      </Tooltip>
+                    )}
+                  </>
+                )}
+              </Box>
             </Toolbar>
           </AppBar>
 

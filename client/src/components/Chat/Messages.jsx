@@ -1,11 +1,10 @@
 import React from "react";
-import "../../index.css";
-import "../../index.scss";
 import Message from "./Message";
+import "../../index.scss";
 
 const Messages = ({ messages, name }) => {
   return (
-    <div className="messages" style={{ height: "80%" }}>
+    <div className="messages">
       {messages.map((message, i) => (
         <div key={i}>
           <Message message={message} name={name} />
