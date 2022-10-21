@@ -287,7 +287,7 @@ const Room = () => {
                     <ListItemIcon>
                       <LockOpenIcon fontSize="small" />
                     </ListItemIcon>
-                    Lock Room
+                    Unlock Room
                   </>
                 ) : (
                   <>
