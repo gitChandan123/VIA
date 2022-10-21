@@ -6,6 +6,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
   Toolbar,
   Tooltip,
   Typography,
@@ -22,12 +26,14 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { toast } from "react-toastify";
+import { Box } from "@mui/system";
+import { grey } from "@mui/material/colors";
+import RemoveUserFromRoom from "./RemoveUserFromRoom";
 import AddUserInRoom from "./AddUserInRoom";
 import Chat from "../Chat/Chat";
 import "../../index.css";
-import { toast } from "react-toastify";
-import RemoveUserFromRoom from "./RemoveUserFromRoom";
-import { Box } from "@mui/system";
 
 const Room = () => {
   const { roomId } = useParams();
@@ -54,6 +60,15 @@ const Room = () => {
   const [editRoom] = useEditRoomMutation();
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,7 +116,12 @@ const Room = () => {
     <>
       {isSuccess && (
         <>
-          <AppBar color="transparent" elevation={1} position="static">
+          <AppBar
+            color="inherit"
+            elevation={1}
+            position="sticky"
+            sx={{ top: 70 }}
+          >
             <Toolbar>
               <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
                 <div
@@ -122,9 +142,15 @@ const Room = () => {
                 ))}
               </Typography>
 
-              <Box
-                sx={{ display: { xs: "none", md: "flex" } }}
+              <IconButton
+                disableRipple
+                onClick={handleMenuClick}
+                sx={{ display: { xs: "block", md: "none", color: grey[900] } }}
               >
+                <MoreVertIcon />
+              </IconButton>
+
+              <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 {room.host === user._id && (
                   <Tooltip arrow title="Add User in room">
                     <button
@@ -215,6 +241,65 @@ const Room = () => {
               <Button onClick={handleCloseRemove}>Cancel</Button>
             </DialogActions>
           </Dialog>
+
+          <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
+            {room.host === user._id && (
+              <MenuItem onClick={handleClickOpen}>
+                <ListItemIcon>
+                  <PersonAddAlt1Icon fontSize="small" />
+                </ListItemIcon>
+                Add User
+              </MenuItem>
+            )}
+
+            {room.host === user._id && (
+              <MenuItem onClick={handleClickOpenRemove}>
+                <ListItemIcon>
+                  <PersonRemoveIcon fontSize="small" />
+                </ListItemIcon>
+                RemoveUser
+              </MenuItem>
+            )}
+
+            <Link
+              to={`/video-call/${roomId}`}
+              style={{ textDecoration: "none" }}
+            >
+              <MenuItem>
+                <ListItemIcon>
+                  <VideocamIcon fontSize="small" />
+                </ListItemIcon>
+                Video Call
+              </MenuItem>
+            </Link>
+
+            <MenuItem onClick={handleClick}>
+              <ListItemIcon>
+                <ExitToAppIcon fontSize="small" />
+              </ListItemIcon>
+              Leave Room
+            </MenuItem>
+
+            {room.host === user._id && (
+              <MenuItem onClick={handleChange}>
+                {isProtected ? (
+                  <>
+                    <ListItemIcon>
+                      <LockOpenIcon fontSize="small" />
+                    </ListItemIcon>
+                    Lock Room
+                  </>
+                ) : (
+                  <>
+                    <ListItemIcon>
+                      <LockIcon fontSize="small" />
+                    </ListItemIcon>
+                    Lock Room
+                  </>
+                )}
+              </MenuItem>
+            )}
+          </Menu>
 
           <div>
             <Chat

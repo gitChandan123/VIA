@@ -16,7 +16,7 @@ const Navbar = ({ open, setOpen }) => {
   return (
     <>
       <AppBar
-        position="sticky"
+        position="fixed"
         elevation={6}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
