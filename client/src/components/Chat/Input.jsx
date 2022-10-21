@@ -3,6 +3,7 @@ import MicSharpIcon from "@mui/icons-material/MicSharp";
 import MicOffSharpIcon from "@mui/icons-material/MicOffSharp";
 import SendIcon from "@mui/icons-material/Send";
 import "../../index.css";
+import "../../index.scss";
 import { Tooltip } from "@mui/material";
 
 const SpeechRecognition =
@@ -13,7 +14,7 @@ mic.continuous = true;
 mic.interimResults = true;
 mic.lang = "en-US";
 
-const Input = ({ room, userId,setMessage, sendMessage, message }) => {
+const Input = ({ room, userId, setMessage, sendMessage, message }) => {
   const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
@@ -98,7 +99,6 @@ const Input = ({ room, userId,setMessage, sendMessage, message }) => {
       </div>
     );
   }
-  };
-
+};
 
 export default Input;

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../redux/api";
-import { useEffect } from "react";
 
 function Register() {
-  const navigate = useNavigate();
-  const [signup, { data: response, isSuccess }] = useSignupMutation();
+  const [signup, { error, isError, isSuccess, data: response }] =
+    useSignupMutation();
   const [firstNameField, setFirstNameField] = useState("");
   const [lastNameField, setLastNameField] = useState("");
   const [emailField, setEmailField] = useState("");
@@ -24,97 +22,109 @@ function Register() {
     await signup(data);
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      localStorage.setItem("user", JSON.stringify(response.result));
-      navigate("/rooms");
-    }
-    //eslint-disable-next-line
-  }, [isSuccess]);
-
   return (
     // New Register
-    <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-      <main className="pa4 black-80">
-        <div className="measure">
-          <form onSubmit={onSubmit}>
-            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f1 fw6 ph0 mh0">Register</legend>
-              <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="name">
-                  First Name
-                </label>
-                <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  name="name"
-                  id="firstName"
-                  type="text"
-                  value={firstNameField}
-                  onChange={(e) => setFirstNameField(e.target.value)}
-                />
+    <section className="vh-100">
+      <div className="container h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div
+              className="card bg-dark text-white"
+              style={{ borderRadius: "1rem" }}
+            >
+              <div className="card-body p-sm-3 p-md-5 text-center">
+                <div className="p-3 p-sm-1">
+                  <h2 className="fw-bold mb-2 text-uppercase">Signup</h2>
+                  <p className="text-white-50 mb-3">
+                    Please enter your details!
+                  </p>
+                  {isError && (
+                    <div className="alert alert-danger">
+                      {error.data.message}
+                    </div>
+                  )}
+                  {isSuccess ? (
+                    <div className="alert alert-success">
+                      {response.message}
+                    </div>
+                  ) : (
+                    <form onSubmit={onSubmit}>
+                      <div className="form-outline form-white mb-4">
+                        <input
+                          required
+                          autoFocus
+                          type="text"
+                          value={firstNameField}
+                          onChange={(e) => setFirstNameField(e.target.value)}
+                          placeholder="First Name"
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+                      <div className="form-outline form-white mb-4">
+                        <input
+                          required
+                          type="text"
+                          value={lastNameField}
+                          onChange={(e) => setLastNameField(e.target.value)}
+                          placeholder="Last Name"
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+                      <div className="form-outline form-white mb-4">
+                        <input
+                          required
+                          id="email"
+                          label="Email"
+                          type="email"
+                          value={emailField}
+                          onChange={(e) => setEmailField(e.target.value)}
+                          placeholder="Email"
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+
+                      <div className="form-outline form-white mb-4">
+                        <input
+                          required
+                          id="password"
+                          label="Password"
+                          type="password"
+                          value={passwordField}
+                          onChange={(e) => setPasswordField(e.target.value)}
+                          placeholder="Password"
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+
+                      <div className="form-outline form-white mb-4">
+                        <input
+                          required
+                          id="password"
+                          label="Password"
+                          type="password"
+                          value={password2Field}
+                          onChange={(e) => setPassword2Field(e.target.value)}
+                          placeholder="Confirm Password"
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+
+                      <button
+                        className="btn btn-outline-light btn-lg px-5"
+                        type="submit"
+                      >
+                        Signup
+                      </button>
+                    </form>
+                  )}
+                </div>
+                <div></div>
               </div>
-              <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="email-address">
-                  Last Name
-                </label>
-                <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  id="lastName"
-                  type="lastName"
-                  value={lastNameField}
-                  onChange={(e) => setLastNameField(e.target.value)}
-                />
-              </div>
-              <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="email-address">
-                  Email
-                </label>
-                <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  id="email"
-                  type="email"
-                  value={emailField}
-                  onChange={(e) => setEmailField(e.target.value)}
-                />
-              </div>
-              <div className="mv3">
-                <label className="db fw6 lh-copy f6" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  required
-                  id="password"
-                  type="password"
-                  value={passwordField}
-                  onChange={(e) => setPasswordField(e.target.value)}
-                />
-              </div>
-              <div className="mv3">
-                <label className="db fw6 lh-copy f6" htmlFor="password">
-                  Confirm Password
-                </label>
-                <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  required
-                  id="password2"
-                  type="password"
-                  value={password2Field}
-                  onChange={(e) => setPassword2Field(e.target.value)}
-                />
-              </div>
-            </fieldset>
-            <div className="">
-              <input
-                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                type="submit"
-                value="submit"
-              />
             </div>
-          </form>
+          </div>
         </div>
-      </main>
-    </article>
+      </div>
+    </section>
   );
 }
 

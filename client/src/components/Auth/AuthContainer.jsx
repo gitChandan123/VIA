@@ -1,4 +1,4 @@
-import { Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import React from "react";
 import Login from "./Login";
 import Register from "./Register";
@@ -11,18 +11,19 @@ const AuthContainer = () => {
   };
 
   return (
-    <Container className="br3 b--black-10 mv4 w-100 w-50-m w-25-l mw6 transparent center d-flex flex-column justify-content-center">
+    <div className="container h-100 center d-flex flex-column justify-content-center pt-3">
       <ToggleButtonGroup
         className="center"
         value={alignment}
         exclusive
         onChange={handleChange}
+        sx={{ bgcolor: "whitesmoke" }}
       >
         <ToggleButton value="login">Login</ToggleButton>
         <ToggleButton value="register">Register</ToggleButton>
       </ToggleButtonGroup>
       {alignment === "login" ? <Login /> : <Register />}
-    </Container>
+    </div>
   );
 };
 

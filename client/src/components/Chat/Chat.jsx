@@ -55,7 +55,7 @@ const Chat = ({ userId, name, room, prevMessages }) => {
 
   return (
     <Box>
-      <div ref={scrollRef}>
+      <div style={{ minHeight: "70vh" }} ref={scrollRef}>
         <Messages messages={messages} name={name} />
       </div>
       <Input

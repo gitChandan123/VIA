@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import "./chat.css";
+import "../../index.scss";
 
 const Message = ({ message, name }) => {
   let isSentByCurrentUser = false;

@@ -26,58 +26,70 @@ function Login() {
       toast.success(`Logged in as ${response.result.name}`);
       navigate("/");
     }
-    if (isError) {
-      toast.error(error.data.message);
-    }
     //eslint-disable-next-line
-  }, [isSuccess, isError]);
+  }, [isSuccess]);
 
   return (
-    <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-      <main className="pa4 black-80">
-        <div className="measure">
-          <form onSubmit={onSubmit}>
-            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-              <legend className="f1 fw6 ph0 mh0">Sign In</legend>
-              <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="email-address">
-                  Email
-                </label>
-                <input
-                  className="pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  id="email"
-                  label="Email"
-                  type="email"
-                  value={emailField}
-                  onChange={(e) => setEmailField(e.target.value)}
-                />
-              </div>
-              <div className="mv3">
-                <label className="db fw6 lh-copy f6" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black w-100"
-                  id="password"
-                  label="Password"
-                  type="password"
-                  value={passwordField}
-                  onChange={(e) => setPasswordField(e.target.value)}
-                />
-              </div>
-            </fieldset>
+    <section className="vh-100">
+      <div className="container h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div
+              className="card bg-dark text-white"
+              style={{ borderRadius: "1rem" }}
+            >
+              <div className="card-body p-5 text-center">
+                <div className="mb-md-5 mt-md-4 pb-3">
+                  <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                  <p className="text-white-50 mb-sm-3 mb-md-5">
+                    Please enter your login credentials!
+                  </p>
+                  {isError && (
+                    <div className="alert alert-danger">{error.data.message}</div>
+                  )}
+                  <form onSubmit={onSubmit}>
+                    <div className="form-outline form-white mb-4">
+                      <input
+                        required
+                        autoFocus
+                        id="email"
+                        label="Email"
+                        type="email"
+                        value={emailField}
+                        onChange={(e) => setEmailField(e.target.value)}
+                        placeholder="Email"
+                        className="form-control form-control-lg"
+                      />
+                    </div>
 
-            <div className="">
-              <input
-                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
-                type="submit"
-                value="submit"
-              />
+                    <div className="form-outline form-white mb-4">
+                      <input
+                        required
+                        id="password"
+                        label="Password"
+                        type="password"
+                        value={passwordField}
+                        onChange={(e) => setPasswordField(e.target.value)}
+                        placeholder="Password"
+                        className="form-control form-control-lg"
+                      />
+                    </div>
+
+                    <button
+                      className="btn btn-outline-light btn-lg px-5"
+                      type="submit"
+                    >
+                      Login
+                    </button>
+                  </form>
+                </div>
+                <div></div>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
-      </main>
-    </article>
+      </div>
+    </section>
   );
 }
 
