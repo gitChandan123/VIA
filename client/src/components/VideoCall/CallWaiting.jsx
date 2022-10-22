@@ -1,10 +1,34 @@
+import { useEffect, useRef } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { io } from "socket.io-client";
 
-const CallWaiting = ({roomId,setVideocall}) => {
+const CallWaiting = ({ roomId, setVideocall }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const ENDPOINT = process.env.REACT_APP_ENDPOINT;
+  let socket = useRef(null);
+
+  useEffect(() => {
+    socket.current = io(ENDPOINT);
+    socket.current.emit("join", { name: user.name, room: roomId }, (error) => {
+      if (error) {
+        console.error(error);
+      }
+    });
+    return () => {
+      socket.current?.disconnect();
+    };
+    //eslint-disable-next-line
+  }, []);
+
+  const handleClick = () => {
+    socket.current.emit("call");
+    setVideocall(true);
+  };
+
   return (
     <>
-      <Button variant="contained" onClick={() => setVideocall(true)}>
+      <Button variant="contained" onClick={handleClick}>
         Join Call
       </Button>
       <Link to={`/rooms/${roomId}`} style={{ textDecoration: "none" }}>
@@ -12,5 +36,5 @@ const CallWaiting = ({roomId,setVideocall}) => {
       </Link>
     </>
   );
-}
+};
 export default CallWaiting;

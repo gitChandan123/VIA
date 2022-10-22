@@ -1,18 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Box } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 import io from "socket.io-client";
 import useSound from "use-sound";
 import Lottie from "lottie-react";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Input from "./Input";
 import Messages from "./Messages";
 import { usePostMessageMutation } from "../../redux/api";
 import messageReceived from "../../static/received.mp3";
 import messageSent from "../../static/sent.mp3";
+import call from "../../static/call.mp3";
 import typingAnimation from "../../static/typing.json";
 
 const Chat = ({ userId, name, room, prevMessages }) => {
   const [playReceived] = useSound(messageReceived);
   const [playSent] = useSound(messageSent);
+  const [playCall] = useSound(call);
+
   const ENDPOINT = process.env.REACT_APP_ENDPOINT;
   let socket = useRef(null);
   const [postMessage] = usePostMessageMutation();
@@ -32,11 +36,15 @@ const Chat = ({ userId, name, room, prevMessages }) => {
     [messages, istyping]
   );
 
+  const scrollToBottom = () => {
+    scrollRef.current?.scrollIntoView({ block: "end", behaviour: "smooth" });
+  };
+
   useEffect(() => {
     socket.current = io(ENDPOINT);
     socket.current.emit("join", { name, room: room._id }, (error) => {
       if (error) {
-        console.log(error);
+        console.error(error);
       }
     });
     return () => {
@@ -53,6 +61,9 @@ const Chat = ({ userId, name, room, prevMessages }) => {
       });
       socket.current.on("typing", () => setIsTyping(true));
       socket.current.on("stop-typing", () => setIsTyping(false));
+      socket.current.on("call", () => {
+        playCall();
+      });
     }
     //eslint-disable-next-line
   }, []);
@@ -109,6 +120,15 @@ const Chat = ({ userId, name, room, prevMessages }) => {
         typingHandler={typingHandler}
         sendMessage={sendMessage}
       />
+      <Fab
+        size="small"
+        color="primary"
+        aria-label="scroll-to-bottom"
+        onClick={scrollToBottom}
+        sx={{ position: "fixed", right: "10px", bottom: "70px" }}
+      >
+        <KeyboardArrowDownIcon fontSize="small" />
+      </Fab>
     </Box>
   );
 };

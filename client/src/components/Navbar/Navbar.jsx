@@ -1,12 +1,35 @@
 import { useNavigate } from "react-router-dom";
-import { AppBar, Drawer, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  Link,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import CloseIcon from "@mui/icons-material/Close";
 import Rooms from "../Rooms/Rooms";
 import "../../index.css";
+import { styled } from "@mui/system";
+import { grey } from "@mui/material/colors";
 
 const Navbar = ({ open, setOpen }) => {
   const navigate = useNavigate();
+
+  const BlackButton = styled(Button)(() => ({
+    color: grey.A100,
+    borderRadius: "25px",
+    margin: "2px",
+    backgroundColor: grey[900],
+    "&:hover": {
+      backgroundColor: grey[800],
+    },
+  }));
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -28,13 +51,32 @@ const Navbar = ({ open, setOpen }) => {
               <CloseIcon fontSize="large" />
             )}
           </IconButton>
-          <strong>VIA (Video Interaction Application)</strong>
-          <Typography sx={{ flexGrow: 1 }}></Typography>
-          <div className="toolbar__div">
-            <button className="bn6" onClick={logout}>
-              Logout
-            </button>
-          </div>
+          <Typography component="p" variant="h5" sx={{ flexGrow: 1 }}>
+            VIA
+            <Box
+              component="span"
+              sx={{ display: { xs: "none", md: "inline" } }}
+            >
+              {" "}(Video Interaction Application)
+            </Box>
+          </Typography>
+          <Link
+            href="https://github.com/Minal-singh/VIA"
+            target="_blank"
+            rel="noopener"
+            underline="none"
+          >
+            <BlackButton variant="contained" startIcon={<GitHubIcon />}>
+              GitHub
+            </BlackButton>
+          </Link>
+          <BlackButton
+            variant="contained"
+            startIcon={<ExitToAppIcon />}
+            onClick={logout}
+          >
+            Logout
+          </BlackButton>
         </Toolbar>
       </AppBar>
       <Drawer

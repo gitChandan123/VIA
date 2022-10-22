@@ -66,6 +66,10 @@ mongoose
         socket.broadcast.emit("stop-typing");
       });
 
+      socket.on("call", () => {
+        socket.broadcast.emit("call");
+      })
+
       socket.on("disconnect", () => {
         removeUser(socket.id);
       });
