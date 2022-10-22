@@ -15,8 +15,8 @@ const Message = ({ message, name }) => {
     <div className="row justify-content-end pl-5 ">
       <div className="rec d-flex flex-column align-items-end m-2 shadow p-2  border rounded w-auto">
         <div>
-          <em className="m-1 flex-start fw-bold">{name}</em>
-          <em className="m-1 flex-end">
+          <em className="m-1 flex-start fw-bold text-uppercase">{name}</em>
+          <em className="m-1 flex-end" style={{ fontSize: "12px" }}>
             {moment(message.timestamp).format("DD/MM hh:mm")}
           </em>
         </div>
@@ -27,8 +27,10 @@ const Message = ({ message, name }) => {
     <div className="row justify-content-start pl-5 ">
       <div className="sen d-flex flex-column align-items-end m-2 shadow p-2 border rounded w-auto">
         <div>
-          <em className="m-1 flex-start fw-bold">{message.sender}</em>
-          <em className="m-1 flex-end">
+          <em className="m-1 flex-start fw-bold text-uppercase">
+            {message.sender}
+          </em>
+          <em className="m-1 flex-end" style={{ fontSize: "12px" }}>
             {moment(message.timestamp).format("DD/MM hh:mm")}
           </em>
         </div>

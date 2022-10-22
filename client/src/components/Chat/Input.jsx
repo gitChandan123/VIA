@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Tooltip } from "@mui/material";
 import MicSharpIcon from "@mui/icons-material/MicSharp";
 import MicOffSharpIcon from "@mui/icons-material/MicOffSharp";
 import SendIcon from "@mui/icons-material/Send";
 import "../../index.css";
 import "../../index.scss";
-import { Tooltip } from "@mui/material";
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -14,7 +14,14 @@ mic.continuous = true;
 mic.interimResults = true;
 mic.lang = "en-US";
 
-const Input = ({ room, userId, setMessage, sendMessage, message }) => {
+const Input = ({
+  room,
+  userId,
+  typingHandler,
+  setMessage,
+  sendMessage,
+  message,
+}) => {
   const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
@@ -60,7 +67,7 @@ const Input = ({ room, userId, setMessage, sendMessage, message }) => {
           placeholder="Type a message..."
           value={message}
           className="form-control bg-light"
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={typingHandler}
           onKeyPress={(event) =>
             event.key === "Enter" ? sendMessage(event) : null
           }

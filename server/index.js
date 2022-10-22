@@ -58,6 +58,14 @@ mongoose
         callback();
       });
 
+      socket.on("typing", () => {
+        socket.broadcast.emit("typing");
+      })
+
+      socket.on("stop-typing", () => {
+        socket.broadcast.emit("stop-typing");
+      });
+
       socket.on("disconnect", () => {
         removeUser(socket.id);
       });
