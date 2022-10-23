@@ -11,6 +11,8 @@ import messageReceived from "../../static/received.mp3";
 import messageSent from "../../static/sent.mp3";
 import call from "../../static/call.mp3";
 import typingAnimation from "../../static/typing.json";
+import { useSelector } from "react-redux";
+import { callActive } from "../../redux/callreducer";
 
 const Chat = ({ userId, name, room, prevMessages }) => {
   const [playReceived] = useSound(messageReceived);
@@ -20,6 +22,7 @@ const Chat = ({ userId, name, room, prevMessages }) => {
   const ENDPOINT = process.env.REACT_APP_ENDPOINT;
   let socket = useRef(null);
   const [postMessage] = usePostMessageMutation();
+  const inCall = useSelector(callActive);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [typing, setTyping] = useState(false);
@@ -62,7 +65,9 @@ const Chat = ({ userId, name, room, prevMessages }) => {
       socket.current.on("typing", () => setIsTyping(true));
       socket.current.on("stop-typing", () => setIsTyping(false));
       socket.current.on("call", () => {
-        playCall();
+        if (!inCall) {
+          playCall();
+        }
       });
     }
     //eslint-disable-next-line

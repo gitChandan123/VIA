@@ -2,11 +2,14 @@ import { useEffect, useRef } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
+import { useDispatch } from "react-redux";
+import { toggleCallActive } from "../../redux/callreducer";
 
 const CallWaiting = ({ roomId, setVideocall }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const ENDPOINT = process.env.REACT_APP_ENDPOINT;
   let socket = useRef(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket.current = io(ENDPOINT);
@@ -23,6 +26,7 @@ const CallWaiting = ({ roomId, setVideocall }) => {
 
   const handleClick = () => {
     socket.current.emit("call");
+    dispatch(toggleCallActive());
     setVideocall(true);
   };
 

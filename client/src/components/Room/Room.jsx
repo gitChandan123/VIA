@@ -30,6 +30,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { toast } from "react-toastify";
 import { Box } from "@mui/system";
 import { grey } from "@mui/material/colors";
+import { useSelector } from "react-redux";
+import { callActive } from "../../redux/callreducer";
 import RemoveUserFromRoom from "./RemoveUserFromRoom";
 import AddUserInRoom from "./AddUserInRoom";
 import Chat from "../Chat/Chat";
@@ -38,6 +40,7 @@ import "../../index.css";
 const Room = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
+  const inCall = useSelector(callActive);
   const user = JSON.parse(localStorage.getItem("user"));
   const [isProtected, setIsProtected] = useState(true);
   const {
@@ -116,106 +119,113 @@ const Room = () => {
     <>
       {isSuccess && (
         <>
-          <AppBar
-            color="inherit"
-            elevation={1}
-            position="sticky"
-            sx={{ top: 70 }}
-          >
-            <Toolbar>
-              <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                <div
-                  className="animate-charcter"
-                  style={{ fontSize: "30px", paddingLeft: "8px" }}
+          {!inCall && (
+            <AppBar
+              color="inherit"
+              elevation={1}
+              position="sticky"
+              sx={{ top: 70 }}
+            >
+              <Toolbar>
+                <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+                  <div
+                    className="animate-charcter"
+                    style={{ fontSize: "30px", paddingLeft: "8px" }}
+                  >
+                    {room.name}
+                  </div>
+                </Typography>
+                <Typography
+                  noWrap
+                  variant="h5"
+                  component="div"
+                  sx={{ flexGrow: 5 }}
                 >
-                  {room.name}
-                </div>
-              </Typography>
-              <Typography
-                noWrap
-                variant="h5"
-                component="div"
-                sx={{ flexGrow: 5 }}
-              >
-                {room.users.map((user) => (
-                  <span key={user.userId}>{user.userName}, </span>
-                ))}
-              </Typography>
+                  {room.users.map((user) => (
+                    <span key={user.userId}>{user.userName}, </span>
+                  ))}
+                </Typography>
 
-              <IconButton
-                disableRipple
-                onClick={handleMenuClick}
-                sx={{ display: { xs: "block", md: "none", color: grey[900] } }}
-              >
-                <MoreVertIcon />
-              </IconButton>
+                <IconButton
+                  disableRipple
+                  onClick={handleMenuClick}
+                  sx={{
+                    display: { xs: "block", md: "none", color: grey[900] },
+                  }}
+                >
+                  <MoreVertIcon />
+                </IconButton>
 
-              <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                {room.host === user._id && (
-                  <Tooltip arrow title="Add User in room">
+                <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                  {room.host === user._id && (
+                    <Tooltip arrow title="Add User in room">
+                      <button
+                        onClick={handleClickOpen}
+                        className="btn btn-primary mx-2"
+                      >
+                        <PersonAddAlt1Icon />
+                      </button>
+                    </Tooltip>
+                  )}
+
+                  {room.host === user._id && (
+                    <Tooltip arrow title="Remove User from room">
+                      <button
+                        onClick={handleClickOpenRemove}
+                        className="btn btn-danger mx-2"
+                      >
+                        <PersonRemoveIcon />
+                      </button>
+                    </Tooltip>
+                  )}
+
+                  <Link
+                    to={`/video-call/${roomId}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Tooltip arrow title="Start Video Call">
+                      <button className="btn btn-primary mx-2">
+                        <VideocamIcon />
+                      </button>
+                    </Tooltip>
+                  </Link>
+
+                  <Tooltip arrow title="Leave Room">
                     <button
-                      onClick={handleClickOpen}
-                      className="btn btn-primary mx-2"
-                    >
-                      <PersonAddAlt1Icon />
-                    </button>
-                  </Tooltip>
-                )}
-
-                {room.host === user._id && (
-                  <Tooltip arrow title="Remove User from room">
-                    <button
-                      onClick={handleClickOpenRemove}
+                      onClick={handleClick}
                       className="btn btn-danger mx-2"
                     >
-                      <PersonRemoveIcon />
+                      <ExitToAppIcon />
                     </button>
                   </Tooltip>
-                )}
 
-                <Link
-                  to={`/video-call/${roomId}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Tooltip arrow title="Start Video Call">
-                    <button className="btn btn-primary mx-2">
-                      <VideocamIcon />
-                    </button>
-                  </Tooltip>
-                </Link>
-
-                <Tooltip arrow title="Leave Room">
-                  <button onClick={handleClick} className="btn btn-danger mx-2">
-                    <ExitToAppIcon />
-                  </button>
-                </Tooltip>
-
-                {room.host === user._id && (
-                  <>
-                    {isProtected ? (
-                      <Tooltip arrow title="Unlock Room">
-                        <button
-                          onClick={handleChange}
-                          className="btn btn-success mx-2"
-                        >
-                          <LockOpenIcon />
-                        </button>
-                      </Tooltip>
-                    ) : (
-                      <Tooltip arrow title="Lock Room">
-                        <button
-                          onClick={handleChange}
-                          className="btn btn-danger mx-2"
-                        >
-                          <LockIcon />
-                        </button>
-                      </Tooltip>
-                    )}
-                  </>
-                )}
-              </Box>
-            </Toolbar>
-          </AppBar>
+                  {room.host === user._id && (
+                    <>
+                      {isProtected ? (
+                        <Tooltip arrow title="Unlock Room">
+                          <button
+                            onClick={handleChange}
+                            className="btn btn-success mx-2"
+                          >
+                            <LockOpenIcon />
+                          </button>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip arrow title="Lock Room">
+                          <button
+                            onClick={handleChange}
+                            className="btn btn-danger mx-2"
+                          >
+                            <LockIcon />
+                          </button>
+                        </Tooltip>
+                      )}
+                    </>
+                  )}
+                </Box>
+              </Toolbar>
+            </AppBar>
+          )}
 
           <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
             <DialogTitle>Add User:</DialogTitle>
