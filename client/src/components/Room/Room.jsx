@@ -124,7 +124,7 @@ const Room = () => {
               color="inherit"
               elevation={1}
               position="sticky"
-              sx={{ top: 70 }}
+              sx={{ top: 65 }}
             >
               <Toolbar>
                 <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>

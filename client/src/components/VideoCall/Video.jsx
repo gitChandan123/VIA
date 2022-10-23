@@ -8,7 +8,6 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { toggleCallActive } from "../../redux/callreducer";
 import { grey } from "@mui/material/colors";
 import Room from "../Room/Room";
-import "./video.css";
 
 const Video = ({ videocall, setVideocall }) => {
   const BlackButton = styled(Button)(() => ({

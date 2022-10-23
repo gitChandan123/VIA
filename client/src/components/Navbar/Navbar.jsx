@@ -14,9 +14,9 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import CloseIcon from "@mui/icons-material/Close";
 import Rooms from "../Rooms/Rooms";
-import "../../index.css";
 import { styled } from "@mui/system";
 import { grey } from "@mui/material/colors";
+import "../../index.css";
 
 const Navbar = ({ open, setOpen }) => {
   const navigate = useNavigate();
@@ -51,13 +51,17 @@ const Navbar = ({ open, setOpen }) => {
               <CloseIcon fontSize="large" />
             )}
           </IconButton>
-          <Typography component="p" variant="h5" sx={{ flexGrow: 1 }}>
+          <Typography
+            component="p"
+            variant="h4"
+            sx={{ flexGrow: 1, fontFamily: "cursive" }}
+          >
             VIA
             <Box
               component="span"
-              sx={{ display: { xs: "none", md: "inline" } }}
+              sx={{ display: { xs: "none", md: "inline" }, fontSize:"20px" }}
             >
-              {" "}(Video Interaction Application)
+              {" "}Video Interaction Application
             </Box>
           </Typography>
           <Link
