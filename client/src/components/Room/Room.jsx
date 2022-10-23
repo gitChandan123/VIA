@@ -142,7 +142,9 @@ const Room = () => {
                   sx={{ flexGrow: 5 }}
                 >
                   {room.users.map((user) => (
-                    <span key={user.userId}>{user.userName}, </span>
+                    <span className="text-uppercase" key={user.userId}>
+                      {user.userName},{" "}
+                    </span>
                   ))}
                 </Typography>
 

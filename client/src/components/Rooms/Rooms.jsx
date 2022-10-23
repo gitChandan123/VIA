@@ -38,7 +38,7 @@ const Rooms = () => {
                             <GroupsIcon />
                           </ListItemIcon>
                           <ListItemText>
-                            <span className="fw-bold">{room.name}</span>
+                            <span className="fw-bold text-uppercase">{room.name}</span>
                           </ListItemText>
                         </ListItemButton>
                       }
