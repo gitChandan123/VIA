@@ -107,7 +107,7 @@ const Chat = ({ userId, name, room, prevMessages }) => {
 
   return (
     <Box ref={scrollRef}>
-      <div style={{ minHeight: "70vh" }}>
+      <div style={inCall ? { minHeight: "85vh" } : { minHeight: "70vh" }}>
         <Messages messages={messages} name={name} userId={userId} />
         {istyping && (
           <Lottie

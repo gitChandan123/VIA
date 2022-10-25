@@ -313,14 +313,14 @@ const Room = () => {
             )}
           </Menu>
 
-          <div>
+          <Box sx={inCall ? { paddingTop: "35px" } : { paddingTop: "0px" }}>
             <Chat
               userId={user._id}
               name={user.name}
               room={room}
               prevMessages={room.messages}
             />
-          </div>
+          </Box>
         </>
       )}
     </>
