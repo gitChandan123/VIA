@@ -15,7 +15,7 @@ export const signin = async (req, res) => {
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid credentials." });
 
-    res.status(200).json({ result: existingUser});
+    res.status(200).json({ result: existingUser });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -36,7 +36,7 @@ export const signup = async (req, res) => {
       password: encryptedPassword,
       name: `${firstName} ${lastName}`,
     });
-    res.status(200).json({ result: result});
+    res.status(200).json({ message: "User Registered. Login to continue!" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

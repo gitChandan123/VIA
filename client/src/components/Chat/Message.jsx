@@ -5,12 +5,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import "./chat.css";
 import "../../index.scss";
 
-const Message = ({ message, name }) => {
+const Message = ({ message, name, userId }) => {
   let isSentByCurrentUser = false;
 
-  const trimmedName = name.trim().toLowerCase();
-
-  if (message.sender === trimmedName) {
+  if (message.senderId === userId) {
     isSentByCurrentUser = true;
   }
   return isSentByCurrentUser ? (

@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import { addUser, removeUser, getUser } from "./utils/users.js";
 import userRoutes from "./routes/user.js";
 import roomRoutes from "./routes/room.js";
@@ -12,7 +12,7 @@ dotenv.config();
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
@@ -33,15 +33,15 @@ mongoose
     const io = new Server(server, {
       cookie: false,
       cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
         credentials: true,
       },
     });
 
     io.on("connection", (socket) => {
-      socket.on("join", ({ name, room }, callback) => {
-        const { error, user } = addUser({ id: socket.id, name, room });
+      socket.on("join", ({ userId, name, room }, callback) => {
+        const { error, user } = addUser({ id: socket.id, userId, name, room });
 
         if (error) return callback(error);
 
@@ -53,14 +53,19 @@ mongoose
       socket.on("sendMessage", (message, callback) => {
         const user = getUser(socket.id);
 
-        io.to(user.room).emit("message", { sender: user.name, message: message,timestamp: new Date() });
+        io.to(user.room).emit("message", {
+          senderId: user.userId,
+          sender: user.name,
+          message: message,
+          timestamp: new Date(),
+        });
 
         callback();
       });
 
       socket.on("typing", () => {
         socket.broadcast.emit("typing");
-      })
+      });
 
       socket.on("stop-typing", () => {
         socket.broadcast.emit("stop-typing");
@@ -68,12 +73,11 @@ mongoose
 
       socket.on("call", () => {
         socket.broadcast.emit("call");
-      })
+      });
 
       socket.on("disconnect", () => {
         removeUser(socket.id);
       });
     });
-
   })
   .catch((error) => console.log(error.message));

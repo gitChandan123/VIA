@@ -99,8 +99,8 @@ function Register() {
                       <div className="form-outline form-white mb-4">
                         <input
                           required
-                          id="password"
-                          label="Password"
+                          id="password2"
+                          label="Confirm Password"
                           type="password"
                           value={password2Field}
                           onChange={(e) => setPassword2Field(e.target.value)}
@@ -118,7 +118,6 @@ function Register() {
                     </form>
                   )}
                 </div>
-                <div></div>
               </div>
             </div>
           </div>

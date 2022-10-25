@@ -45,7 +45,7 @@ const Chat = ({ userId, name, room, prevMessages }) => {
 
   useEffect(() => {
     socket.current = io(ENDPOINT);
-    socket.current.emit("join", { name, room: room._id }, (error) => {
+    socket.current.emit("join", { name, userId, room: room._id }, (error) => {
       if (error) {
         console.error(error);
       }
@@ -108,7 +108,7 @@ const Chat = ({ userId, name, room, prevMessages }) => {
   return (
     <Box ref={scrollRef}>
       <div style={{ minHeight: "70vh" }}>
-        <Messages messages={messages} name={name} />
+        <Messages messages={messages} name={name} userId={userId} />
         {istyping && (
           <Lottie
             animationData={typingAnimation}
