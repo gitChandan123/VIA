@@ -1,13 +1,16 @@
-import React from "react";
-import AgoraUIKit from "agora-react-uikit";
+import React, { useEffect, useState } from "react";
+import AgoraUIKit, { layout } from "agora-react-uikit";
 import { useParams } from "react-router-dom";
 import CallWaiting from "./CallWaiting";
 import { useDispatch } from "react-redux";
 import { AppBar, Button, styled, Toolbar, Typography } from "@mui/material";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import GridViewIcon from "@mui/icons-material/GridView";
 import ChatIcon from "@mui/icons-material/Chat";
 import { toggleCallActive } from "../../redux/callreducer";
 import { grey } from "@mui/material/colors";
 import Room from "../Room/Room";
+import { useGetRoomQuery } from "../../redux/api";
 
 const Video = ({ videocall, setVideocall }) => {
   const BlackButton = styled(Button)(() => ({
@@ -22,12 +25,31 @@ const Video = ({ videocall, setVideocall }) => {
 
   const { roomId } = useParams();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [isProtected, setIsProtected] = useState(true);
+  const [isHost, setHost] = useState(false);
+  const [isPinned, setPinned] = useState(true);
+
+  const { data: room, isSuccess } = useGetRoomQuery({
+    userId: user._id,
+    roomId,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsProtected(room.isProtected);
+      setHost(room.isProtected ? room.host === user._id : true);
+    }
+    //eslint-disable-next-line
+  }, [isSuccess]);
 
   const props = {
     rtcProps: {
       appId: process.env.REACT_APP_AGORA_APPID,
       channel: roomId,
       token: null, // pass in channel token if the app is in secure mode
+      role: isHost ? "host" : "audience",
+      layout: isPinned ? layout.pin : layout.grid,
     },
     callbacks: {
       EndCall: () => {
@@ -45,6 +67,15 @@ const Video = ({ videocall, setVideocall }) => {
           <AppBar position="fixed" elevation={6}>
             <Toolbar variant="dense">
               <Typography sx={{ flexGrow: 1 }}></Typography>
+              {!isProtected && (
+                <BlackButton
+                  variant="contained"
+                  startIcon={isPinned ? <GridViewIcon /> : <PushPinIcon />}
+                  onClick={() => setPinned(!isPinned)}
+                >
+                  {isPinned ? "Grid" : "Pinned"}
+                </BlackButton>
+              )}
               <BlackButton
                 variant="contained"
                 startIcon={<ChatIcon />}
@@ -60,14 +91,14 @@ const Video = ({ videocall, setVideocall }) => {
             <AgoraUIKit rtcProps={props.rtcProps} callbacks={props.callbacks} />
           </div>
           <div
-            class="offcanvas offcanvas-end"
+            className="offcanvas offcanvas-end"
             data-bs-scroll="true"
             data-bs-backdrop="false"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasScrolling"
             aria-labelledby="offcanvasScrollingLabel"
           >
-            <div class="offcanvas-body">
+            <div className="offcanvas-body">
               <Room />
             </div>
           </div>

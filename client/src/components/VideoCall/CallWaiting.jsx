@@ -18,11 +18,15 @@ const CallWaiting = ({ roomId, setVideocall }) => {
 
   useEffect(() => {
     socket.current = io(ENDPOINT);
-    socket.current.emit("join", { name: user.name, room: roomId }, (error) => {
-      if (error) {
-        console.error(error);
+    socket.current.emit(
+      "join",
+      { name: user.name, userId: user._id, room: roomId },
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
       }
-    });
+    );
     return () => {
       socket.current?.disconnect();
     };
