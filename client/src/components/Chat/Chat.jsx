@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Box, Fab } from "@mui/material";
+import { Box, Fab, IconButton } from "@mui/material";
 import io from "socket.io-client";
 import useSound from "use-sound";
 import Lottie from "lottie-react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import CallIcon from "@mui/icons-material/Call";
+import CallEndIcon from "@mui/icons-material/CallEnd";
 import Input from "./Input";
 import Messages from "./Messages";
 import { usePostMessageMutation } from "../../redux/api";
@@ -11,22 +13,29 @@ import messageReceived from "../../static/received.mp3";
 import messageSent from "../../static/sent.mp3";
 import call from "../../static/call.mp3";
 import typingAnimation from "../../static/typing.json";
+import callingAnimation from "../../static/call.json";
 import { useSelector } from "react-redux";
 import { callActive } from "../../redux/callreducer";
+import { styled } from "@mui/system";
+import { green, red } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 const Chat = ({ userId, name, room, prevMessages }) => {
   const [playReceived] = useSound(messageReceived);
   const [playSent] = useSound(messageSent);
-  const [playCall] = useSound(call);
+  const [playCall, { stop }] = useSound(call);
 
   const ENDPOINT = process.env.REACT_APP_ENDPOINT;
   let socket = useRef(null);
+  const navigate = useNavigate();
   const [postMessage] = usePostMessageMutation();
   const inCall = useSelector(callActive);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [showCall, setShowCall] = useState(false);
+  let timeout = useRef(null);
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -67,11 +76,28 @@ const Chat = ({ userId, name, room, prevMessages }) => {
       socket.current.on("call", () => {
         if (!inCall) {
           playCall();
+          setShowCall(true);
+          timeout.current = setTimeout(() => {
+            setShowCall(false);
+          }, 35000);
         }
       });
     }
     //eslint-disable-next-line
   }, []);
+
+  const callPick = () => {
+    clearTimeout(timeout.current);
+    setShowCall(false);
+    stop();
+    navigate(`/video-call/${room._id}`);
+  };
+
+  const callCut = () => {
+    clearTimeout(timeout.current);
+    stop();
+    setShowCall(false);
+  };
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -105,10 +131,62 @@ const Chat = ({ userId, name, room, prevMessages }) => {
     }, timerLength);
   };
 
+  const GreenButton = styled(IconButton)(() => ({
+    color: "#fff",
+    borderRadius: "25px",
+    margin: "2px",
+    backgroundColor: green[900],
+    "&:hover": {
+      backgroundColor: green[800],
+    },
+  }));
+
+  const RedButton = styled(IconButton)(() => ({
+    color: "#fff",
+    borderRadius: "25px",
+    margin: "2px",
+    backgroundColor: red[900],
+    "&:hover": {
+      backgroundColor: red[800],
+    },
+  }));
+
   return (
     <Box ref={scrollRef}>
       <div style={inCall ? { minHeight: "85vh" } : { minHeight: "70vh" }}>
         <Messages messages={messages} name={name} userId={userId} />
+
+        {showCall && (
+          <Box
+            sx={{
+              position: "fixed",
+              bottom: "80px",
+              right: "10px",
+              zIndex: 1501,
+              width: "300px",
+              height: "200px",
+              border: "solid black 1px",
+              borderRadius: "20px",
+              background:
+                "linear-gradient(124deg, rgba(165,103,215,1) 0%, rgba(79,79,252,0.9416141456582633) 100%)",
+            }}
+          >
+            <Lottie
+              animationData={callingAnimation}
+              loop={true}
+              style={{ height: 120, width: 300 }}
+            />
+            <span className="d-flex justify-content-evenly">
+              <GreenButton color="success" onClick={callPick}>
+                <CallIcon fontSize="large" />
+              </GreenButton>
+              <RedButton color="error" onClick={callCut}>
+                <CallEndIcon fontSize="large" />
+              </RedButton>
+            </span>
+          </Box>
+        )}
+
         {istyping && (
           <Lottie
             animationData={typingAnimation}
