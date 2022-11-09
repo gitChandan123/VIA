@@ -13,14 +13,20 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import "./rooms.css";
 import "../../index.scss";
 
-const Rooms = () => {
+const Rooms = ({ setOpen }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const { data, isSuccess, isError, error } = useGetRoomsQuery({
     userId: user._id,
   });
 
+  const handle = () => {
+    if (window.innerWidth < 600) {
+      setOpen(false);
+    }
+  };
+
   return (
-    <div className="sidebar">
+    <div className="sidebar" onClick={handle}>
       <Container className="leftbar">
         <Paper className="leftbar__paper">
           <div style={{ height: "72vh" }}>
@@ -38,7 +44,9 @@ const Rooms = () => {
                             <GroupsIcon />
                           </ListItemIcon>
                           <ListItemText>
-                            <span className="fw-bold text-uppercase">{room.name}</span>
+                            <span className="fw-bold text-uppercase">
+                              {room.name}
+                            </span>
                           </ListItemText>
                         </ListItemButton>
                       }

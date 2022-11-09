@@ -29,16 +29,21 @@ const RemoveUserFromRoom = ({ roomId, usersInRoom }) => {
 
   return (
     <MenuList>
-      {usersInRoom.map((newUser) => (
-        <MenuItem key={newUser.userId}>
-          <ListItemText>
-            <h3>{newUser.userName}</h3>
-          </ListItemText>
-          <Button variant="contained" onClick={() => handleClick(newUser.userId)}>
-            Remove
-          </Button>
-        </MenuItem>
-      ))}
+      {usersInRoom
+        .filter((newUser) => newUser.userId !== user._id)
+        .map((newUser) => (
+          <MenuItem key={newUser.userId}>
+            <ListItemText>
+              <h3>{newUser.userName}</h3>
+            </ListItemText>
+            <Button
+              variant="contained"
+              onClick={() => handleClick(newUser.userId)}
+            >
+              Remove
+            </Button>
+          </MenuItem>
+        ))}
     </MenuList>
   );
 };
