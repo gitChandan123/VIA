@@ -91,7 +91,7 @@ const Navbar = ({ open, setOpen }) => {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <Rooms />
+        <Rooms setOpen={setOpen} />
       </Drawer>
     </>
   );
