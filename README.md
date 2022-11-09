@@ -64,7 +64,7 @@ Create ```.env``` file and add these lines
 CONNECTION_URL=<YOUR MONGODB DATABASE URL>
 FRONTEND_URL=http://localhost:3000
 ```
-**Mondodb [ https://account.mongodb.com/account/register ]**
+**Mongodb [ https://account.mongodb.com/account/register ]**
 
 Start server
 ```
