@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   ListItemText,
   MenuItem,
   MenuList,
@@ -36,49 +38,61 @@ const AddUserInRoom = ({ roomId, usersInRoom }) => {
   }, [isLoading]);
 
   return (
-    <div>
-      <input
-        placeholder="Search User..."
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginTop: "10px" }}
-        className="form-control bg-light"
-      />
-      <br />
+    <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div>
-        {isSuccess && (
-          <MenuList>
-            {users
-              .filter((user) => {
-                if (usersInRoom.some((newUser) => newUser.userId === user._id))
+        <input
+          placeholder="Search User..."
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ marginTop: "10px" }}
+          className="form-control bg-light"
+        />
+        <br />
+        <div>
+          {isSuccess && (
+            <MenuList>
+              {users
+                .filter((user) => {
+                  if (
+                    usersInRoom.some((newUser) => newUser.userId === user._id)
+                  )
+                    return false;
+                  if (searchTerm === "") return true;
+                  else if (
+                    user.name
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase()) ||
+                    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+                  )
+                    return true;
                   return false;
-                if (searchTerm === "") return true;
-                else if (
-                  user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  user.email.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                  return true;
-                return false;
-              })
-              .map((newUser) => (
-                <MenuItem key={newUser._id}>
-                  <ListItemText>
-                    <h3>{newUser.name}</h3>
-                    <p>{newUser.email}</p>
-                  </ListItemText>
-                  <Button
-                    variant="contained"
-                    onClick={() => handleClick(newUser)}
-                  >
-                    Add
-                  </Button>
-                </MenuItem>
-              ))}
-          </MenuList>
-        )}
+                })
+                .map((newUser) => (
+                  <MenuItem key={newUser._id}>
+                    <ListItemText>
+                      <h3>{newUser.name}</h3>
+                      <p>{newUser.email}</p>
+                    </ListItemText>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleClick(newUser)}
+                    >
+                      Add
+                    </Button>
+                  </MenuItem>
+                ))}
+            </MenuList>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
