@@ -1,7 +1,12 @@
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import VideoCall from "./Pages/VideoCallPage/VideoCall";
 import Auth from "./Pages/AuthPage/Auth";

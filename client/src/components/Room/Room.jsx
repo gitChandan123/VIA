@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   AppBar,
+  Backdrop,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -47,6 +49,8 @@ const Room = () => {
     data: room,
     isSuccess,
     isError,
+    isLoading,
+    isFetching,
     error,
   } = useGetRoomQuery({ userId: user._id, roomId });
 
@@ -56,6 +60,7 @@ const Room = () => {
       data: deleteData,
       isSuccess: isDeleteSuccess,
       isError: isDeleteError,
+      isLoading: isDeleteLoading,
       error: deleteError,
     },
   ] = useDeleteRoomMutation();
@@ -117,6 +122,12 @@ const Room = () => {
 
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading || isFetching || isDeleteLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {isSuccess && (
         <>
           {!inCall && (
@@ -130,7 +141,7 @@ const Room = () => {
                 <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
                   <div
                     className="animate-charcter"
-                    style={{ fontSize: "30px", paddingLeft: "8px" }}
+                    style={{ fontSize: "25px", paddingLeft: "8px" }}
                   >
                     {room.name}
                   </div>
@@ -142,7 +153,11 @@ const Room = () => {
                   sx={{ flexGrow: 5 }}
                 >
                   {room.users.map((user) => (
-                    <span className="text-uppercase" key={user.userId}>
+                    <span
+                      className="text-uppercase"
+                      style={{ fontSize: "18px" }}
+                      key={user.userId}
+                    >
                       {user.userName},{" "}
                     </span>
                   ))}

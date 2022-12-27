@@ -46,14 +46,15 @@ export const createRoom = async (req, res) => {
 };
 
 export const deleteRoom = async (req, res) => {
-  const { userid: userId, id: roomId } = req.params;
+  const { userid: userID, id: roomId } = req.params;
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userID);
     if (user.rooms.includes(roomId)) {
       const room = await Room.findById(roomId);
-      if (room.isProtected === true && room.host === userId) {
+      if (room.isProtected === true && room.host === userID) {
+        let newUser;
         for (let i = 0; i < room.users.length; i++) {
-          newUser = User.findById(room.users[i]);
+          newUser = await User.findById(room.users[i].userId);
           if (newUser.rooms.includes(roomId)) {
             newUser.rooms = newUser.rooms.filter((r) => roomId !== r);
             await newUser.save();
@@ -62,7 +63,7 @@ export const deleteRoom = async (req, res) => {
         await Room.findByIdAndDelete(roomId);
         res.status(200).json({ message: "Room deleted successfully" });
       } else {
-        room.users = room.users.filter((u) => userId !== u.userId);
+        room.users = room.users.filter((u) => userID !== u.userId);
         user.rooms = user.rooms.filter((r) => roomId !== r);
         room.UpdatedAt = new Date();
         await user.save();
