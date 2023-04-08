@@ -11,7 +11,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "agora-react-uikit": "^1.1.0",
+    "agora-react-uikit": "^1.2.0",
     "axios": "^0.27.2",
     "lottie-react": "^2.3.1",
     "moment": "^2.29.4",
