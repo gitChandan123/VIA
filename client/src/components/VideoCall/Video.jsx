@@ -50,6 +50,7 @@ const Video = ({ videocall, setVideocall }) => {
       token: null, // pass in channel token if the app is in secure mode
       role: isHost ? "host" : "audience",
       layout: isPinned ? layout.pin : layout.grid,
+      enableScreensharing: true,
     },
     callbacks: {
       EndCall: () => {
