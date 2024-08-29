@@ -18,7 +18,7 @@
 
 **2. Clone this project**
 ```
-git clone https://github.com/Minal-singh/VIA.git
+git@github.com:gitChandan123/VIA.git
 ```
 
 Then, Enter the project
