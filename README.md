@@ -2,7 +2,7 @@
 
 ### Project Live on [ https://via-webapp.netlify.app/ ]
 
-### Don't forget to giving a STAR ⭐️, if you LIKE it.
+### Don't forget to give a STAR ⭐️, if you LIKE it.
 
 ## How to Install and Run this project?
 
