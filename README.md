@@ -2,7 +2,11 @@
 
 ### Project Live on [ https://via-webapp.netlify.app/ ]
 
+<<<<<<< HEAD
 ### And if you like this project, then ADD a STAR ⭐️  to this project 👆
+=======
+### Don't forget to give a STAR ⭐️, if you LIKE it.
+>>>>>>> 0cffce2b0b5371b01dc0904347dff286ae13e864
 
 ## How to Install and Run this project?
 
@@ -18,7 +22,11 @@
 
 **2. Clone this project**
 ```
+<<<<<<< HEAD
 git clone https://github.com/Minal-singh/VIA.git
+=======
+git@github.com:gitChandan123/VIA.git
+>>>>>>> 0cffce2b0b5371b01dc0904347dff286ae13e864
 ```
 
 Then, Enter the project
